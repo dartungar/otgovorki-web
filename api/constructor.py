@@ -4,6 +4,7 @@
 # and in the sentence bind them
 from words_stupid import Subject, Predicate, PredicateSpice, Noun, NounSpice, Greeting, BeginningSpice, EndingSentence
 from helpers import declensify, get_rules, needs_capitalizing, make_rules_nonsense
+from helpers import create_text_from_list
 import random
 
 
@@ -170,6 +171,31 @@ def constructor(words, morph, tense='futr', context=None, is_nonsense=False,
     word_list[0] = word_list[0].capitalize()
 
     return word_list
+
+def basic_constructor(words, morph, is_nonsense=False, subject_is_myself=True, min_seriousness=None, max_seriousness=None, context=None, subj_sex=None, tense=None):
+    if not tense:
+        tense = random.choice(['past', 'futr'])
+
+    word_list = constructor(words=words,
+                            morph=morph,
+                            tense=tense,
+                            is_nonsense=is_nonsense,
+                            subject_is_myself=random.randint(0, 1),
+                            subj_datv=random.randint(0, 1),
+                            has_predicate_spice=random.randint(0, 1),
+                            to_be=random.randint(0, 1),
+                            has_greeting=random.randint(0, 1),
+                            has_beginning=random.randint(0, 1),
+                            has_ending=random.randint(0, 1),
+                            min_seriousness=min_seriousness,
+                            max_seriousness=max_seriousness,
+                            context=context,
+                            subj_sex=subj_sex
+                            )
+
+    text = create_text_from_list(morph, word_list)
+
+    return text
 
 
 

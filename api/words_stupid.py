@@ -119,6 +119,8 @@ class Predicate():
         
         verbs = words['verb'].fillna(value=0)
 
+        print(f'verb context: {context}')
+
         if context:
             verbs = verbs[verbs[get_context_column_name(context)]==True]
 

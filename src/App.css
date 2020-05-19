@@ -1,14 +1,26 @@
 .text-container {
-    position: absolute;
-    top: 40%;
     text-align: center;
-    margin: auto;
+    display: inline-block;
+    /* margin: 0 auto; */
+    /* position: absolute; */
+    margin-top: 20%;
+    min-width: 240px;
 }
 
 .text-box {
-    font-size: 2rem;
+    font-size: 1.2rem;
 }
 
 .refresh-btn {
     width: 100px;
+    margin: 10px;
+}
+
+.settings-box {
+    text-align: left;
+    padding-top: 1.5%;
+}
+
+.settings-column {
+    margin-bottom: 1rem;
 }

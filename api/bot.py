@@ -30,12 +30,17 @@ logger.info('initialized Morph')
 CHOOSING_OPTION_TYPE, GENDER, TENSE, IN_CONTEXTS, IN_FUN = range(5)
 
 
-keyboard = ReplyKeyboardMarkup([['/generate'], ['/themes', '/fun'], ['/help', '/options']], True)
-context_keyboard = ReplyKeyboardMarkup([['/work', '/study', '/health'], ['/personal', '/family', '/leisure'], ['/back']], True)
+keyboard = ReplyKeyboardMarkup(
+    [['/generate'], ['/themes', '/fun'], ['/help', '/options']], True)
+context_keyboard = ReplyKeyboardMarkup(
+    [['/work', '/study', '/health'], ['/personal', '/family', '/leisure'], ['/back']], True)
 fun_keyboard = ReplyKeyboardMarkup([['/crazy', '/nonsense'], ['/back']], True)
-options_keyboard = ReplyKeyboardMarkup([['/my_gender'], ['/tense'], ['/back']], True)
-choose_my_gender_keyboard = ReplyKeyboardMarkup([['/male'], ['/female'], ['/cancel']], True)
-choose_tense_keyboard = ReplyKeyboardMarkup([['/past'], ['/future'], ['/past_and_future'], ['/cancel']], True)
+options_keyboard = ReplyKeyboardMarkup(
+    [['/my_gender'], ['/tense'], ['/back']], True)
+choose_my_gender_keyboard = ReplyKeyboardMarkup(
+    [['/male'], ['/female'], ['/cancel']], True)
+choose_tense_keyboard = ReplyKeyboardMarkup(
+    [['/past'], ['/future'], ['/past_and_future'], ['/cancel']], True)
 
 
 def update_user_data(update, context, session):
@@ -63,7 +68,7 @@ def start(update, context):
     username = update.message.from_user.username
 
     if not db.check_if_user_exists(session, username):
-        db.create_new_user(session, username) 
+        db.create_new_user(session, username)
 
     update_user_data(update, context, session)
 
@@ -90,19 +95,19 @@ def show_help(update, context):
     return ConversationHandler.END
 
 
-
 def go_to_main_menu(update, context):
     update.message.reply_text('👌', reply_markup=keyboard)
     return ConversationHandler.END
 
 
 def go_to_fun(update, contexts):
-    update.message.reply_text('/crazy - странная отговорка, /nonsense - полный бред!', reply_markup=fun_keyboard)
+    update.message.reply_text(
+        '/crazy - странная отговорка, /nonsense - полный бред!', reply_markup=fun_keyboard)
     return IN_FUN
 
 
 def generate_random(update, context):
-    
+
     # TODO: как-то по умному сделать штоле
     try:
         if not context.user_data['gender']:
@@ -113,12 +118,12 @@ def generate_random(update, context):
         logger.info('user context not initialized. updating user data...')
         update_user_data(update, context, session)
         logger.info('updated user data!')
-
-
-    excuse_context = random.choice(['family', 'personal', 'health', 'leisure', 'work', 'study', 'official'])
+    excuse_context = random.choice(
+        ['family', 'personal', 'health', 'leisure', 'work', 'study', 'official'])
     for i in range(MAX_RETRY):
         try:
-            text = test_constructor(words=df, morph=morph, context=excuse_context, subj_sex=context.user_data['gender'], tense=context.user_data['tense'])
+            text = test_constructor(words=df, morph=morph, context=excuse_context,
+                                    subj_sex=context.user_data['gender'], tense=context.user_data['tense'])
             logger.info('generated text')
             update.message.reply_text(text, reply_markup=keyboard)
         except:
@@ -154,13 +159,15 @@ def generate_nonsense(update, context):
             continue
         else:
             break
-    return IN_FUN
+        finally:
+            return IN_FUN
 
 
 def generate_serious(update, context):
     for i in range(MAX_RETRY):
         try:
-            text = test_constructor(words=df, morph=morph, min_seriousness=3, subj_sex=context.user_data['gender'], tense=context.user_data['tense'])
+            text = test_constructor(words=df, morph=morph, min_seriousness=3,
+                                    subj_sex=context.user_data['gender'], tense=context.user_data['tense'])
             logger.info('generated text')
             update.message.reply_text(text, reply_markup=keyboard)
         except:
@@ -173,7 +180,8 @@ def generate_serious(update, context):
 def generate_not_serious(update, context):
     for i in range(MAX_RETRY):
         try:
-            text = test_constructor(words=df, morph=morph, max_seriousness=3, subj_sex=context.user_data['gender'], tense=context.user_data['tense'])
+            text = test_constructor(words=df, morph=morph, max_seriousness=3,
+                                    subj_sex=context.user_data['gender'], tense=context.user_data['tense'])
             logger.info('generated text')
             update.message.reply_text(text, reply_markup=keyboard)
         except:
@@ -185,14 +193,16 @@ def generate_not_serious(update, context):
 
 def go_to_contexts(update, context):
     update_user_data(update, context, session)
-    update.message.reply_text('Выберите контекст отговорки 👇', reply_markup=context_keyboard)
+    update.message.reply_text(
+        'Выберите контекст отговорки 👇', reply_markup=context_keyboard)
     return IN_CONTEXTS
 
 
 def generate_personal(update, context):
     for i in range(MAX_RETRY):
         try:
-            text = test_constructor(words=df, morph=morph, context='personal', subj_sex=context.user_data['gender'], tense=context.user_data['tense'])
+            text = test_constructor(words=df, morph=morph, context='personal',
+                                    subj_sex=context.user_data['gender'], tense=context.user_data['tense'])
             logger.info('generated text')
             update.message.reply_text(text, reply_markup=context_keyboard)
         except:
@@ -206,7 +216,8 @@ def generate_personal(update, context):
 def generate_work(update, context):
     for i in range(MAX_RETRY):
         try:
-            text = test_constructor(words=df, morph=morph, context='work', subj_sex=context.user_data['gender'], tense=context.user_data['tense'])
+            text = test_constructor(words=df, morph=morph, context='work',
+                                    subj_sex=context.user_data['gender'], tense=context.user_data['tense'])
             logger.info('generated text')
             update.message.reply_text(text, reply_markup=context_keyboard)
         except:
@@ -220,7 +231,8 @@ def generate_work(update, context):
 def generate_family(update, context):
     for i in range(MAX_RETRY):
         try:
-            text = test_constructor(words=df, morph=morph, context='family', subj_sex=context.user_data['gender'], tense=context.user_data['tense'])
+            text = test_constructor(words=df, morph=morph, context='family',
+                                    subj_sex=context.user_data['gender'], tense=context.user_data['tense'])
             logger.info('generated text')
             update.message.reply_text(text, reply_markup=context_keyboard)
         except:
@@ -234,7 +246,8 @@ def generate_family(update, context):
 def generate_study(update, context):
     for i in range(MAX_RETRY):
         try:
-            text = test_constructor(words=df, morph=morph, context='study', subj_sex=context.user_data['gender'], tense=context.user_data['tense'])
+            text = test_constructor(words=df, morph=morph, context='study',
+                                    subj_sex=context.user_data['gender'], tense=context.user_data['tense'])
             logger.info('generated text')
             update.message.reply_text(text, reply_markup=context_keyboard)
         except:
@@ -248,7 +261,8 @@ def generate_study(update, context):
 def generate_official(update, context):
     for i in range(MAX_RETRY):
         try:
-            text = test_constructor(words=df, morph=morph, context='official', subj_sex=context.user_data['gender'], tense=context.user_data['tense'])
+            text = test_constructor(words=df, morph=morph, context='official',
+                                    subj_sex=context.user_data['gender'], tense=context.user_data['tense'])
             logger.info('generated text')
             update.message.reply_text(text, reply_markup=context_keyboard)
         except:
@@ -262,7 +276,8 @@ def generate_official(update, context):
 def generate_health(update, context):
     for i in range(MAX_RETRY):
         try:
-            text = test_constructor(words=df, morph=morph, context='health', subj_sex=context.user_data['gender'], tense=context.user_data['tense'])
+            text = test_constructor(words=df, morph=morph, context='health',
+                                    subj_sex=context.user_data['gender'], tense=context.user_data['tense'])
             logger.info('generated text')
             update.message.reply_text(text, reply_markup=context_keyboard)
         except:
@@ -276,7 +291,8 @@ def generate_health(update, context):
 def generate_leisure(update, context):
     for i in range(MAX_RETRY):
         try:
-            text = test_constructor(words=df, morph=morph, context='leisure', subj_sex=context.user_data['gender'], tense=context.user_data['tense'])
+            text = test_constructor(words=df, morph=morph, context='leisure',
+                                    subj_sex=context.user_data['gender'], tense=context.user_data['tense'])
             logger.info('generated text')
             update.message.reply_text(text, reply_markup=context_keyboard)
         except:
@@ -290,12 +306,14 @@ def generate_leisure(update, context):
 def options(update, context):
     username = update.message.from_user.username
     user = session.query(User).filter(User.username == username).first()
-    update.message.reply_text(f'Установлен пол: {user.gender}, время - {user.tense if user.tense else "прошлое и будущее"}. Можете задать свой пол или указать, в каком времени (прошлом, будущем) отговорка', reply_markup=options_keyboard)
-    return CHOOSING_OPTION_TYPE 
+    update.message.reply_text(
+        f'Установлен пол: {user.gender}, время - {user.tense if user.tense else "прошлое и будущее"}. Можете задать свой пол или указать, в каком времени (прошлом, будущем) отговорка', reply_markup=options_keyboard)
+    return CHOOSING_OPTION_TYPE
 
 
 def choose_my_gender(update, context):
-    update.message.reply_text('/male - мужской, /female - женский', reply_markup=choose_my_gender_keyboard)
+    update.message.reply_text(
+        '/male - мужской, /female - женский', reply_markup=choose_my_gender_keyboard)
     return GENDER
 
 
@@ -320,7 +338,8 @@ def set_my_gender_to_female(update, context):
 
 
 def choose_tense(update, context):
-    update.message.reply_text('О каком времени должно говориться в отговорках? /past - о прошлом, /future - о будущем', reply_markup=choose_tense_keyboard)
+    update.message.reply_text(
+        'О каком времени должно говориться в отговорках? /past - о прошлом, /future - о будущем', reply_markup=choose_tense_keyboard)
     return TENSE
 
 
@@ -330,7 +349,8 @@ def set_tense_to_past(update, context):
     user.tense = 'past'
     session.commit()
     update_user_data(update, context, session)
-    update.message.reply_text('Установлено прошедшее время!', reply_markup=keyboard)
+    update.message.reply_text(
+        'Установлено прошедшее время!', reply_markup=keyboard)
     return ConversationHandler.END
 
 
@@ -340,7 +360,8 @@ def set_tense_to_future(update, context):
     user.tense = 'futr'
     session.commit()
     update_user_data(update, context, session)
-    update.message.reply_text('Установлено будущее время!', reply_markup=keyboard)
+    update.message.reply_text(
+        'Установлено будущее время!', reply_markup=keyboard)
     return ConversationHandler.END
 
 
@@ -350,9 +371,9 @@ def clean_tense(update, context):
     user.tense = ''
     session.commit()
     update_user_data(update, context, session)
-    update.message.reply_text('Установлены прошедшее и будущее времена!', reply_markup=keyboard)
+    update.message.reply_text(
+        'Установлены прошедшее и будущее времена!', reply_markup=keyboard)
     return ConversationHandler.END
-
 
 
 
@@ -379,20 +400,20 @@ def main():
     generate_serious_handler = CommandHandler('serious', generate_serious)
     dp.add_handler(generate_serious_handler)
 
-    generate_not_serious_handler = CommandHandler('not_serious', generate_not_serious)
+    generate_not_serious_handler = CommandHandler(
+        'not_serious', generate_not_serious)
     dp.add_handler(generate_not_serious_handler)
-
 
     options_handler = ConversationHandler(
         entry_points=[CommandHandler('options', options)],
 
         states={
             CHOOSING_OPTION_TYPE: [CommandHandler('my_gender', choose_my_gender),
-                                    CommandHandler('tense', choose_tense)],
+                                   CommandHandler('tense', choose_tense)],
 
             GENDER: [CommandHandler('male', set_my_gender_to_male),
-                        CommandHandler('female', set_my_gender_to_female),
-                        CommandHandler('cancel', options)],
+                     CommandHandler('female', set_my_gender_to_female),
+                     CommandHandler('cancel', options)],
 
             TENSE: [CommandHandler('past', set_tense_to_past),
                     CommandHandler('future', set_tense_to_future),
@@ -404,38 +425,35 @@ def main():
     )
     dp.add_handler(options_handler)
 
-
     fun_handler = ConversationHandler(
         entry_points=[CommandHandler('fun', go_to_fun)],
 
         states={
             IN_FUN: [CommandHandler('crazy', generate_crazy),
-                                    CommandHandler('nonsense', generate_nonsense)],
+                     CommandHandler('nonsense', generate_nonsense)],
         },
 
         fallbacks=[CommandHandler('back', go_to_main_menu)]
     )
     dp.add_handler(fun_handler)
 
-
     contexts_handler = ConversationHandler(
         entry_points=[CommandHandler('themes', go_to_contexts)],
 
         states={
             IN_CONTEXTS: [
-                            CommandHandler('work', generate_work),
-                            CommandHandler('study', generate_study),
-                            CommandHandler('health', generate_health),
-                            CommandHandler('personal', generate_personal),
-                            CommandHandler('family', generate_family),
-                            CommandHandler('leisure', generate_leisure)
-                        ]
+                CommandHandler('work', generate_work),
+                CommandHandler('study', generate_study),
+                CommandHandler('health', generate_health),
+                CommandHandler('personal', generate_personal),
+                CommandHandler('family', generate_family),
+                CommandHandler('leisure', generate_leisure)
+            ]
         },
 
         fallbacks=[CommandHandler('back', go_to_main_menu)]
     )
     dp.add_handler(contexts_handler)
-
 
     updater.start_polling()
     updater.idle()

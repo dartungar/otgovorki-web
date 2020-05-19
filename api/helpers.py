@@ -2,6 +2,7 @@
 # выбор типов, падежей итд
 import random
 
+# цифры - номер опции в склоняторе, которую надо выбрать
 parse_exceptions = {
     'вещи': 1,
     'море': 5,
@@ -44,7 +45,7 @@ def declensify(morph, word_parsed, tags=None, tense='pres', case=None, context=N
                 pass #TODO: логировать в info импотенцию склонятора
         if tense == 'futr' and 'NOUN' in tags and ('3per' and '1per') not in tags:
             #print('ding')
-            word_parsed = word.inflect({'3per'})
+            word_parsed = word_parsed.inflect({'3per'})
 
     return word_parsed
 
