@@ -1,26 +1,129 @@
-.text-container {
-    text-align: center;
-    display: inline-block;
-    /* margin: 0 auto; */
-    /* position: absolute; */
-    margin-top: 20%;
+@import url("https://fonts.googleapis.com/css2?family=Lora&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap");
+
+.app-container {
+    height: 100%;
+    color: #515156;
+}
+
+.header {
+    height: 7%;
+}
+
+h1, h2, h3 {
+    color: #c1b656;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* container for main part */
+
+.main-container {
     min-width: 240px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+/* box for text */
+
+.on-copy-message {
+    font-size: 1rem;
+}
+
+.visibility-visible {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.1s linear;
+}
+
+.visibility-hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 0.3s, opacity 0.1s linear;
 }
 
 .text-box {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
+    max-width: 50%;
+    font-family: 'Lora', serif;
 }
 
-.refresh-btn {
-    width: 100px;
-    margin: 10px;
+.loader-box {
+    min-height: 72px;
 }
+
+/* loader */
+
+.emoji-loader {
+    font-size: 1rem;
+    animation-duration: 2s;
+    animation-name: pulse;
+    animation-iteration-count: infinite;
+  }
+  
+@keyframes pulse {
+from {
+    font-size: 2rem;
+}
+50% {
+    font-size: 3rem;
+}
+100% {
+    font-size: 2rem;
+}
+}
+
+/* buttons */
+
+.custom-btn {
+    width: 60px;
+    height: 45px;
+    margin: 10px;
+    border: 0;
+    font-size: 1rem;
+}
+
+.custom-btn-filled {
+    color: #F1F2EC;
+    background-color: #c1b656;
+}
+
+.custom-btn-filled:hover {
+    background-color: #515156;
+}
+
+.custom-btn-outline {
+    color: #c1b656;
+    background-color: #F1F2EC;
+    border-color: #c1b656;
+}
+
+.custom-btn-outline:hover {
+    background-color: #c1b656;
+}
+
+/* settings */
 
 .settings-box {
+    max-width: 500px;
+    padding-left: 50px;
     text-align: left;
-    padding-top: 1.5%;
+    padding-top: 1.7%;
 }
 
 .settings-column {
     margin-bottom: 1rem;
+}
+
+/* footer */
+
+.footer {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.footer a {
+    color: black;
+}
+
+.footer a:hover {
+    color: darkgrey;
 }

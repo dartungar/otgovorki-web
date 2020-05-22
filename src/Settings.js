@@ -1,7 +1,7 @@
 let settingsList = [
         { id: 1, settingTypeID: 1, title: "Стараюсь", value: "adequate", isActive: true },
         { id: 2, settingTypeID: 1, title: "Смешу", value: "funny", isActive: false },
-        { id: 3, settingTypeID: 1, title: "Упоролся", value: "insane", isActive: false },
+        { id: 3, settingTypeID: 1, title: "Брежу", value: "insane", isActive: false },
         { id: 4, settingTypeID: 2, title: "Случайная", value: "random", isActive: true },
         { id: 5, settingTypeID: 2, title: "Работа", value: "work", isActive: false },
         { id: 6, settingTypeID: 2, title: "Учеба", value: "study", isActive: false },

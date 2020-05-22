@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import Form from "react-bootstrap/Form";
 import SettingsItem from "./SettingsItem"
 
 function SettingsColumn(props) {

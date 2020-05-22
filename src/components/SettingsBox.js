@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Accordion from "react-bootstrap/Accordion";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
 import SettingsColumn from "./SettingsColumn";
 
 function SettingsBox(props) {
@@ -22,10 +18,10 @@ function SettingsBox(props) {
   }
 
   return (
-    <div className="settings-box container-fluid">
+    <div className={`settings-box container-fluid ${props.isHidden && "visibility-hidden"}`}>
       <Form>
         <Form.Row>
-        <Col  md={{span: 2, offset: 3}} sm={6}>
+        <Col  md={4} sm={6}>
           <SettingsColumn
             items={getColumnItems(settingTypes[0])}
             title={settingTypes[0]["title"]}
@@ -33,7 +29,7 @@ function SettingsBox(props) {
             onChangeSettings={updateSettings}
           />
         </Col>
-        <Col  md={2} sm={6}>
+        <Col  md={4} sm={6}>
           <SettingsColumn
             items={getColumnItems(settingTypes[1])}
             title={settingTypes[1]["title"]}
@@ -41,7 +37,7 @@ function SettingsBox(props) {
             onChangeSettings={updateSettings}
           />
         </Col>
-        <Col md={2} sm={6}>
+        <Col md={4} sm={6}>
           <SettingsColumn
             items={getColumnItems(settingTypes[2])}
             title={settingTypes[2]["title"]}
