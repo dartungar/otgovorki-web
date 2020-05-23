@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/otgovorki/node_modules
 /.pnp
 .pnp.js
 
@@ -24,6 +25,7 @@ yarn-error.log*
 
 /data
 data/
+/otgovorki/static/data/
 
 __pycache__/
 .vscode/

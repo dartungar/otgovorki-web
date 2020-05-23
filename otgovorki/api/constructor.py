@@ -2,9 +2,9 @@
 # one function to find them
 # one to arrange them all
 # and in the sentence bind them
-from words_stupid import Subject, Predicate, PredicateSpice, Noun, NounSpice, Greeting, BeginningSpice, EndingSentence
-from helpers import declensify, get_rules, needs_capitalizing, make_rules_nonsense
-from helpers import create_text_from_list
+from .words_stupid import Subject, Predicate, PredicateSpice, Noun, NounSpice, Greeting, BeginningSpice, EndingSentence
+from .helpers import declensify, get_rules, needs_capitalizing, make_rules_nonsense
+from .helpers import create_text_from_list
 import random
 
 

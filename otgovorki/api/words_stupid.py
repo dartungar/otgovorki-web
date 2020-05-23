@@ -1,6 +1,6 @@
 # "глупые" классы - принимают готовые параметры для подбора слова
 import random
-from helpers import declensify, declensify_text, get_context_column_name, needs_capitalizing, parse, parse_exceptions
+from .helpers import declensify, declensify_text, get_context_column_name, needs_capitalizing, parse, parse_exceptions
 
 
 # существительное

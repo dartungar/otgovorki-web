@@ -23,7 +23,7 @@ h1, h2, h3 {
     margin-bottom: auto;
 }
 
-/* box for text */
+/* flashing message on copy */
 
 .on-copy-message {
     font-size: 1rem;
@@ -41,17 +41,19 @@ h1, h2, h3 {
     transition: visibility 0s 0.3s, opacity 0.1s linear;
 }
 
+/* box for text */
+
 .text-box {
     font-size: 1.5rem;
-    max-width: 50%;
+    max-width: 60%;
     font-family: 'Lora', serif;
 }
+
+/* loader */
 
 .loader-box {
     min-height: 72px;
 }
-
-/* loader */
 
 .emoji-loader {
     font-size: 1rem;
@@ -91,7 +93,19 @@ from {
     background-color: #515156;
 }
 
+.custom-btn-filled:disabled {
+    color: #F1F2EC;
+    background-color: #c1b656;
+    opacity: 0.5;
+}
+
 .custom-btn-outline {
+    color: #c1b656;
+    background-color: #F1F2EC;
+    border-color: #c1b656;
+}
+
+.custom-btn-outline:disabled {
     color: #c1b656;
     background-color: #F1F2EC;
     border-color: #c1b656;
@@ -99,6 +113,13 @@ from {
 
 .custom-btn-outline:hover {
     background-color: #c1b656;
+}
+
+.custom-btn-outline:hover:disabled {
+    color: #c1b656;
+    background-color: #F1F2EC;
+    border-color: #c1b656;
+    opacity: 0.5;
 }
 
 /* settings */
@@ -121,9 +142,10 @@ from {
 }
 
 .footer a {
-    color: black;
+    color: #515156;
 }
 
 .footer a:hover {
-    color: darkgrey;
+    color: #c1b656;
+    transition: ease-in 0.15s;
 }
