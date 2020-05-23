@@ -4,7 +4,7 @@ import TextBox from "./TextBox";
 import SettingsBox from "./SettingsBox";
 import Header from "./Header";
 import Footer from "./Footer";
-import {settingsList, settingTypesList} from "../Settings";
+import {settingsList, settingTypesList} from "./Settings";
 import ButtonRow from "./ButtonRow";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../App.css";

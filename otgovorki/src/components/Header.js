@@ -4,7 +4,7 @@ import Nav from "react-bootstrap/Nav";
 
 function Header(){
     return <Navbar className="header centered-navbar justify-content-center">
-                <Navbar.Brand><h3>otgovorki</h3></Navbar.Brand>
+                <Navbar.Brand><h3>otgovorki <span class="text-dimmed">α</span></h3></Navbar.Brand>
                 {/* <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse className="m-auto" id="basic-navbar-nav"> */}
                     {/* <Nav>

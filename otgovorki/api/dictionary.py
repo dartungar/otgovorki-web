@@ -1,6 +1,12 @@
 import pandas as pd 
 import pymorphy2
+from flask import url_for
 
-dictionary = pd.read_excel('static/data/otgovorki.xlsx', index_col=0, sheet_name=None)
+
+def get_dictionary(app_name='otgovorki'):
+    print(app_name)
+    return pd.read_excel(f"{app_name}/static/data/otgovorki.xlsx", index_col=0, sheet_name=None)
+
+#dictionary = pd.read_excel("otgovorki/static/data/otgovorki.xlsx", index_col=0, sheet_name=None)
 morph = pymorphy2.MorphAnalyzer()
 themes = ['work', 'study', 'health', 'personal', 'family', 'leisure']
