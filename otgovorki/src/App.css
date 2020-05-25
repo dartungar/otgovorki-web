@@ -34,6 +34,9 @@ h1, h2, h3 {
     font-size: 1rem;
 }
 
+/* hide / show on-copy-message and settings box
+on small screens, do not render at all to prevent footer running away */
+
 .visibility-visible {
     visibility: visible;
     opacity: 1;
@@ -46,12 +49,26 @@ h1, h2, h3 {
     transition: visibility 0s 0.3s, opacity 0.1s linear;
 }
 
+@media screen and (max-width: 770px) {
+    .visibility-hidden {
+        display: none;
+    }
+}
+
 /* box for text */
 
 .text-box {
     font-size: 1.5rem;
     max-width: 60%;
     font-family: 'Lora', serif;
+}
+
+@media screen and (max-width: 450px) {
+    .text-box p {
+        font-size: 1rem;
+        text-align: start;
+        transition: ease-in-out 0.1s;
+    }
 }
 
 /* loader */

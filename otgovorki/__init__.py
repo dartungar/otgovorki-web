@@ -9,7 +9,7 @@ import os
 import werkzeug
 
 
-def create_app(test_config=None):
+def create_app(test_config=None, *args, **kwargs):
     # создаем и настраиваем приложение
     app = Flask(__name__, instance_relative_config=True, static_folder=f"./build", static_url_path="/")
     CORS(app)
@@ -88,3 +88,7 @@ def create_app(test_config=None):
 
 
     return app
+
+
+# TODO: боле фласконическое создание приложения
+app = create_app()

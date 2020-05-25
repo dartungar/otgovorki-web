@@ -49,7 +49,7 @@ function SettingsItem(props) {
 
         return <div>
             <input 
-            className="form-check-input"
+            className="form-check-input checkmark"
             type='radio' 
             checked={isActive}
             disabled={isDisabled}

@@ -25,9 +25,13 @@ yarn-error.log*
 
 /data
 data/
+public/data
 /otgovorki/static/data/
 
 __pycache__/
 .vscode/
+
+/otgovorki/build/
+/otgovorki/build
 
 

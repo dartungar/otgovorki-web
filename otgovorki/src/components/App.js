@@ -52,7 +52,7 @@ function App() {
     var params = composeParameters();
     setIsLoading(true);
     fetch(
-      `http://localhost:5000/api/get?plausibility=${params.plausibility}&theme=${params.theme}&sex=${params.sex}&tense=${params.tense}`,
+      `/api/get?plausibility=${params.plausibility}&theme=${params.theme}&sex=${params.sex}&tense=${params.tense}`,
         {
           method: "GET",
           mode: "cors",
