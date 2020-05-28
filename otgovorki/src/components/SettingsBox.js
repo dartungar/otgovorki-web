@@ -4,19 +4,27 @@ import Col from "react-bootstrap/Col";
 import SettingsColumn from "./SettingsColumn";
 
 function SettingsBox(props) {
+  // types of settings, for generating custom columns of setting items
+  // columns are not uniform so we can't simply map() settings 
   const settingTypes = props.settingTypes;
 
+  // intermediate container for newSettings changed in SettingsItem.js
   const [newSettings, setNewSettings] = useState();
-
+  
+  // send changed settings up to App.js
   function updateSettings(newSettings) {
     setNewSettings(newSettings);
     props.onChangeSettings(newSettings);
   }
 
+  // get items for generating column of settings items 
+  // using settings type
   function getColumnItems(settingTypeObj) {
     return props.settings.filter(item => item.settingTypeID === settingTypeObj.id);
   }
 
+  // generate settings columns
+  // columns are not uniform (last 2 are short and stacked) so we can't generate them with map()
   return (
     <div className={`settings-box container-fluid ${props.isHidden && "visibility-hidden"}`}>
       <Form>

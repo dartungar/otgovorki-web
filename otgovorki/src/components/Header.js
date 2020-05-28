@@ -21,7 +21,6 @@ function Header(){
                 {/* </Navbar.Collapse> */}
 
             </Navbar>
-
 }
 
 export default Header;

@@ -3,7 +3,11 @@ import Button from "react-bootstrap/Button";
 import InfoPopover from "./InfoPopover";
 import {FaCog, FaRedoAlt, FaQuestion} from "react-icons/fa"
 
-function ButtonRow(props) {
+function MainButtonRow(props) {
+
+    // buttons
+    // left to right
+    // "?" button has popover with info
     return <div className="button-row d-flex flex-row">
         <Button
         className="custom-btn custom-btn-outline"
@@ -22,7 +26,9 @@ function ButtonRow(props) {
             <FaRedoAlt/>
         </Button>
         <InfoPopover>
-            <Button className="custom-btn custom-btn-outline copy-btn" variant="outline-secondary">
+            <Button 
+            className="custom-btn custom-btn-outline copy-btn" 
+            variant="outline-secondary">
                 <FaQuestion/>
             </Button>
         </InfoPopover>
@@ -30,4 +36,4 @@ function ButtonRow(props) {
   </div>
 }
 
-export default ButtonRow;
+export default MainButtonRow;

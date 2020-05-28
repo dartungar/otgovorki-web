@@ -96,7 +96,24 @@ from {
 }
 }
 
-/* buttons */
+/* upvote buttons */
+.upvote-btn {
+    background-color: white;
+    border-color: white;
+    font-size: 1.4rem;
+    transition: linear 0.2s;
+}
+
+.upvote-btn:hover {
+    font-size: 1.45rem;
+    transition: linear 0.2s;
+}
+
+.upvote-btn:disabled {
+    opacity: 0.5;
+}
+
+/* main control buttons */
 
 .custom-btn {
     width: 60px;
@@ -156,6 +173,69 @@ from {
 .settings-column {
     margin-bottom: 1rem;
 }
+
+/* custon radio buttons */
+[type=radio] {
+    opacity: 0;
+    display: none;
+}
+
+[type="radio"] + label{
+    position:relative;
+    padding-left:20px;
+    cursor:pointer;
+    display:inline-block;
+    color:#515156;
+    line-height:25px;
+}
+
+[type="radio"]:disabled + label{
+    opacity: 0.5;
+    transition: ease-in-out .1s;
+}
+
+[type="radio"] + label::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:7px;
+    width:12px;
+    height:12px;
+    border-radius: 50%;
+    border:1px solid #c1b656;
+    background:#fff;
+
+}
+
+[type="radio"]:checked + label::after{
+    content:"";
+    position:absolute;
+    left:3px;
+    top:10px;
+    width:6px;
+    height:6px;
+    border-radius:100%;
+    background:#c1b656;
+    transform:scale(1);
+    opacity:1;
+    transition:all .1s ease;
+}
+
+[type="radio"]:not(:checked) + label::after{
+    content:"";
+    position:absolute;
+    left:4px;
+    top:4px;
+    width:12px;
+    height:12px;
+    border-radius:100%;
+    background:#fff;
+    transform:scale(0);
+    opacity:0;
+}
+
+
+
 
 /* footer */
 

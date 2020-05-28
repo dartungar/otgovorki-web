@@ -1,3 +1,5 @@
+// default settings for the app
+
 let settingsList = [
         { id: 1, settingTypeID: 1, title: "Стараюсь", value: "adequate", isActive: true },
         { id: 2, settingTypeID: 1, title: "Смешу", value: "funny", isActive: false },
