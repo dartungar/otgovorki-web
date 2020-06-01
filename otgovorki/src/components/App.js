@@ -16,7 +16,6 @@ function App() {
   );
 
   useEffect(() => {
-    console.log('writing current page state:', currentPage)
     localStorage.setItem('currentPage', JSON.stringify(currentPage));
   }, [currentPage])
 

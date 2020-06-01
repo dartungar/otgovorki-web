@@ -33,5 +33,6 @@ __pycache__/
 
 /otgovorki/build/
 /otgovorki/build
+.env
 
 

@@ -68,7 +68,7 @@ def create_app(test_config=None, *args, **kwargs):
 
 
     # when upvoted, add generated otgovorka to DB
-    @app.route('/api/generate/post', methods=['POST'])
+    @app.route('/api/upvote/post', methods=['POST'])
     def post_otgovorka():
         data = request.get_json()
         try:
@@ -133,14 +133,6 @@ def create_app(test_config=None, *args, **kwargs):
         otgovorka = session.query(Otgovorka).filter_by(id=id).first()
         # make them a JSON object
         return json.dumps(otgovorka.to_json()), 200, {'ContentType':'application/json'} 
-
-
-    @app.route('/api/otgovorka/upvotes/post')
-    def post_upvote():
-        # find otgovorka by ID
-        # increment upvotes count by 1
-        # based on passed type of upvote (like, laugh, doubt)
-        pass 
 
 
     @app.route('/api/submit/post', methods=['POST'])

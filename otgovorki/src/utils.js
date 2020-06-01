@@ -1,7 +1,7 @@
 
 async function registerUpvote(id, content, type) {
     let newData = await fetch(
-                        '/api/generate/post',
+                        '/api/upvote/post',
                         {
                             method: 'POST',
                             mode: 'cors',

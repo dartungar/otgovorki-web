@@ -54,4 +54,5 @@
 .ranking-upvote-number {
     margin-right: 20px;
     font-size: 0.8rem;
+    transition: 0.5s ease;
 }

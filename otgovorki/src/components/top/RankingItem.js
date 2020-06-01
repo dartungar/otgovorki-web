@@ -19,9 +19,9 @@ function RankingItem(props) {
             }
         });
         console.log(isButtonClicked);
-        const newOtgovorka = await registerUpvote(props.otgovorka.id, props.otgovorka.content, upvoteTypes[name]);
-        console.log('new otgovorka:', newOtgovorka)
-        props.onUpdate(newOtgovorka)
+        const updatedOtgovorka = await registerUpvote(props.otgovorka.id, props.otgovorka.content, upvoteTypes[name]);
+        console.log('new otgovorka:', updatedOtgovorka)
+        props.onUpdate(updatedOtgovorka)
     }
 
     return <div className="ranking-item">
