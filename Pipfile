@@ -7,6 +7,12 @@ verify_ssl = true
 
 [packages]
 pandas="*"
+sqlalchemy = "*"
+psycopg2 = "*"
+flask = "*"
+flask-cors = "*"
+pymorphy2 = "*"
+xlrd = "*"
 
 [requires]
 python_version = "3.7"

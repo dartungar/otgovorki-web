@@ -1,0 +1,32 @@
+
+
+.submit-container {
+    width: 30%;
+    min-width: 300px;
+    margin: 10% auto auto auto;
+}
+
+.text-area-submit:focus {
+    border-color: #c1b656;
+    /* box-shadow: 3px 3px 2px #c1b656; */
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075), 0 0 3px #c1b656;
+    outline: 0 none;
+}
+
+.submit-btn {
+    margin-top: 30px;
+    border: 0;
+    font-size: 1rem;
+    background-color: #c1b656;
+
+}
+
+.submit-btn:hover {
+    background-color: #515156;
+}
+
+.submit-btn:disabled {
+    color: #F1F2EC;
+    background-color: #c1b656;
+    opacity: 0.5;
+}

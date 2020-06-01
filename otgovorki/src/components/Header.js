@@ -1,26 +1,19 @@
 import React from "react";
-import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 
-function Header(){
-    return <Navbar className="header centered-navbar justify-content-center">
-                <Navbar.Brand><h3>otgovorki <span class="text-dimmed">α</span></h3></Navbar.Brand>
-                {/* <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-                <Navbar.Collapse className="m-auto" id="basic-navbar-nav"> */}
-                    {/* <Nav>
-                        <Nav.Link>
-                            Генератор
-                        </Nav.Link>
-                        <Nav.Link>
-                            Топ
-                        </Nav.Link>
-                        <Nav.Link>
-                            Об авторе
-                        </Nav.Link>
-                    </Nav> */}
-                {/* </Navbar.Collapse> */}
+function Header(props){
+    return  <Nav className="justify-content-center" activeKey={props.currentPage}>
+                <Nav.Link className="custom-link custom-navbar-link" eventKey="generator" name="generator" onClick={props.onClickNavItem}>
+                    Генератор
+                </Nav.Link>
+                <Nav.Link className="custom-link custom-navbar-link"  eventKey="top" name="top" onClick={props.onClickNavItem}>
+                    Топ
+                </Nav.Link>
+                <Nav.Link className="custom-link custom-navbar-link"  eventKey="submit" name="submit" onClick={props.onClickNavItem}>
+                    Предложить
+                </Nav.Link>
+            </Nav>
 
-            </Navbar>
 }
 
 export default Header;

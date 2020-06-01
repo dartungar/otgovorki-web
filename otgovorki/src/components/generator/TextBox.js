@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from "react";
 import UpvoteButtonRow from "./UpvoteButtonRow";
 
+
 function TextBox(props) {
     // states
     // current value of the text
-    const [text, setText] = useState();
+    const [otgovorka, setOtgovorka] = useState();
     // is text loading. affects showing loader
     const [isLoading, setIsLoading] = useState(false);
     // if text was recently copied, we will show special message
@@ -13,7 +14,7 @@ function TextBox(props) {
     // set states based on what App.js passed to us
     useEffect(() => {
         setIsLoading(props.isLoading);
-        setText(props.text);
+        setOtgovorka(props.otgovorka);
     }, [props.isLoading, props.text]);
 
     // if 'text was copied' message is visible, fade it out
@@ -27,7 +28,7 @@ function TextBox(props) {
 
     // on double click or touch event - copy text to clipboard and show special message
     function handleDoubleClickOrTouch() {
-        navigator.clipboard.writeText(text);
+        navigator.clipboard.writeText(props.otgovorka.content);
         setIsCopyMessageVisible(true);
         console.log(isCopyMessageVisible);
     }
@@ -39,11 +40,11 @@ function TextBox(props) {
                 {isLoading 
                 ? <div className="loader-box"><span className="emoji-loader" role="img">{props.isSexMale ? "🤷‍♂️" : "🤷‍♀️"}</span> </div>
                 : 
-                <p onDoubleClick={handleDoubleClickOrTouch} onTouchStart={handleDoubleClickOrTouch}>{text}</p>
+                <p className="main-text-row" onDoubleClick={handleDoubleClickOrTouch} onTouchStart={handleDoubleClickOrTouch}>{props.otgovorka.content}</p>
                 }
-                <UpvoteButtonRow isLoading={props.isLoading}/>
-         
+                <UpvoteButtonRow isLoading={isLoading} otgovorka={otgovorka}/>       
             </div> 
+            
  
 }
 
