@@ -4,7 +4,6 @@ import {registerUpvote} from "../../utils";
 
 
 function UpvoteButtonRow(props) {
-    console.log(props.otgovorka);
     const defaultButtonsState = {like: false, laugh: false, doubt: false};
 
     const [isButtonClicked, setButtonsState] = useState({defaultButtonsState});
@@ -32,25 +31,25 @@ function UpvoteButtonRow(props) {
     return <div className="upvote-btn-row-container">
                 <Button 
                     className="upvote-btn" 
-                    disabled={isButtonClicked['like'] | props.isLoading} 
+                    disabled={isButtonClicked['like'] || props.isLoading || props.isLoadingFailed} 
                     variant="outline-light" 
                     name="like" 
-                    title="Неплохо!"
+                    title="Правдоподобно!"
                     onClick={handleButtonClick}>
                 👍
                 </Button> 
                 <Button 
                     className="upvote-btn" 
-                    disabled={isButtonClicked['laugh'] | props.isLoading} 
+                    disabled={isButtonClicked['laugh'] || props.isLoading || props.isLoadingFailed} 
                     variant="outline-light" 
                     name="laugh" 
-                    title="Смешно!"
+                    title="Смешно :)"
                     onClick={handleButtonClick}>
                 🤣
                 </Button> 
                 <Button 
                     className="upvote-btn" 
-                    disabled={isButtonClicked['doubt'] | props.isLoading} 
+                    disabled={isButtonClicked['doubt'] || props.isLoading || props.isLoadingFailed} 
                     variant="outline-light" 
                     name="doubt" 
                     title="Э-э-э..."

@@ -30,3 +30,9 @@
     background-color: #c1b656;
     opacity: 0.5;
 }
+
+.submit-success-message {
+    width: 30%;
+    background-color: #F1F2EC;
+    color: #c1b656;
+}

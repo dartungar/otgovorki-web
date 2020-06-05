@@ -41,6 +41,10 @@
     height: 7%;
 }
 
+.nav {
+    position: sticky;
+}
+
 .nav-link {
     font-size: 0.9rem;
     opacity: 0.8;
@@ -109,9 +113,18 @@ on small screens, do not render at all to prevent footer running away */
     }
 }
 
-/* .main-text-row {
-    margin-bottom: 0;
-} */
+.generated-text-row-animated {
+    animation: fadein 1s;
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
 
 /* loader */
 
@@ -283,7 +296,18 @@ from {
     opacity:0;
 }
 
+/* info popover */
+.info-popover-title {
+    font-weight: 500;
+}
 
+.info-popover-indented-bullets {
+    margin-left: 17px;
+}
+
+.info-popover-indented-bullets::before {
+    content: "•";
+}
 
 
 /* footer */

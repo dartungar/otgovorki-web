@@ -12,6 +12,7 @@ function MainButtonRow(props) {
         <Button
         className="custom-btn custom-btn-outline"
         variant="outline-secondary"
+        title="Настройки"
         disabled={props.isLoading}
         onClick={props.handleClickSettings}
         >
@@ -20,6 +21,7 @@ function MainButtonRow(props) {
         <Button
         className="custom-btn custom-btn-filled"
         variant="dark"
+        title="Обновить"
         disabled={props.isLoading}
         onClick={props.handleClickSubmit}
         >
@@ -28,7 +30,9 @@ function MainButtonRow(props) {
         <InfoPopover>
             <Button 
             className="custom-btn custom-btn-outline copy-btn" 
-            variant="outline-secondary">
+            variant="outline-secondary"
+            title="Справка"
+            >
                 <FaQuestion/>
             </Button>
         </InfoPopover>

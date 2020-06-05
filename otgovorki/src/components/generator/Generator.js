@@ -11,16 +11,29 @@ function Generator() {
         content: "Еду я по выбоинам, по выбоинам да не выеду я. Шла Саша по шоссе и сосала сушки. Ехал Сталин через Сталин - видит Сталин: Сталин Сталин. ⬇"
     });
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingFailed, setIsLoadingFailed] = useState(false);
     const [defaultSettings] = useState(settingsList);
     const [settingTypes] = useState(settingTypesList);
     const [settings, setSettings] = useState();
     const [isSettingsShown, setIsSettingsShown] = useState(false);
-    const [isCopyMessageVisible, setIsCopyMessageVisible] = useState(false);
+    const [isCopyMessageVisible] = useState(false);
 
     // if settings are not set, use default settings
     if (!settings) {
+        console.log('setting default settings...')
         setSettings(defaultSettings);
     }
+
+    useEffect(() => {
+        loadGeneratedOtgovorka();
+    }, [])
+
+    useEffect(() => {
+        if (isLoadingFailed) {
+            setOtgovorka({id: 0, content: 'Ошибка! Нажмите "Обновить" ещё раз.'})
+        }
+    }, [isLoadingFailed])
+
 
     // find active settings
     function composeParameters() {
@@ -49,8 +62,8 @@ function Generator() {
         }
     }
 
-    // on click 'Refresh' button - get new otgovorka from API
-    function handleClickOnRefreshOtgovorka() {
+
+    function loadGeneratedOtgovorka() {
         var params = composeParameters();
         setIsLoading(true);
         fetch(
@@ -71,6 +84,8 @@ function Generator() {
             })
             .catch((error) => {
                 console.log(error);
+                setIsLoadingFailed(true);
+                setIsLoading(false);
             });
     }
     
@@ -89,8 +104,8 @@ function Generator() {
     }
 
     return <div className="main-container d-flex align-items-center flex-column justify-content-center">
-                <TextBox isLoading={isLoading} otgovorka={otgovorka} isCopyMessageVisible={isCopyMessageVisible} isSexMale={isSexMale()}/>
-                <MainButtonRow isLoading={isLoading} handleClickSubmit={handleClickOnRefreshOtgovorka} handleClickSettings={handleClickSettings}/>
+                <TextBox isLoading={isLoading} isLoadingFailed={isLoadingFailed} otgovorka={otgovorka} isCopyMessageVisible={isCopyMessageVisible} isSexMale={isSexMale()}/>
+                <MainButtonRow isLoading={isLoading} handleClickSubmit={loadGeneratedOtgovorka} handleClickSettings={handleClickSettings}/>
                 <SettingsBox settings={settings} settingTypes={settingTypes} isHidden={!isSettingsShown} onChangeSettings={handleChangeSettings}/>
            </div>
 }

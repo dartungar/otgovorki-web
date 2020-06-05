@@ -110,12 +110,13 @@ def create_app(test_config=None, *args, **kwargs):
 
     @app.route('/api/otgovorki/get')
     def get_all_otgovorki():
-        sort_type_dict = {'like': 'likes_count', 'laugh': 'laughs_count', 'doubt': 'doubts_count'}
+        sort_type_dict = {'likes': 'likes_count', 'laughs': 'laughs_count', 'doubts': 'doubts_count', 'undefined': 'likes_count'}
         sort_type = sort_type_dict[request.args['sort']] if request.args['sort'] else 'likes_count'
         offset = int(request.args['currentNum']) if request.args['currentNum'] else 0
         limit = int(request.args['numToLoad']) if request.args['numToLoad'] else 10
+        print(f"offset: {offset}, limit: {limit}")
         # get list of all otgovorki
-        otgovorki = session.query(Otgovorka).order_by(desc(sort_type))[offset:limit]
+        otgovorki = session.query(Otgovorka).order_by(desc(sort_type))[offset:offset+limit]
         print(otgovorki)
         # make it a JSON object with JSONified otgovorki
         otgovorki_json = json.dumps([o.to_json() for o in otgovorki])
@@ -163,6 +164,7 @@ def create_app(test_config=None, *args, **kwargs):
     @app.errorhandler(werkzeug.exceptions.BadRequest)
     def handle_bad_request(e):
         return "<h1>400</h1><p>The request seems bad. If you are trying to mess around with the API, don't. Use the main site instead.</p>", 400
+
 
     @app.errorhandler(werkzeug.exceptions.NotFound)
     def handle_not_found(e):

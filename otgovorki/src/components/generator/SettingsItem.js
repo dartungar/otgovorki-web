@@ -65,7 +65,7 @@ function SettingsItem(props) {
             id={props.settingID}
             name={props.settingTypeID}
             onChange={handleChange}
-        /> <label for={props.settingID}>{props.title}</label>
+        /> <label htmlFor={props.settingID}>{props.title}</label>
         </div>
 }
 

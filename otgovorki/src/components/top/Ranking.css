@@ -2,9 +2,76 @@
 
 .ranking-container {
     min-width: 240px;
-    margin-top: 5%;
+    margin-top: 2%;
     margin-bottom: auto;
     align-items: left;
+}
+
+.sorting-buttons-container {
+    text-align: left;
+    width: 70%;
+    margin: 0 auto 30px auto;
+    padding: 1rem 0 1rem;
+}
+
+@media (max-width: 700px) {
+    .sorting-buttons-container {
+        margin: auto;
+        text-align: center;
+    }
+}
+
+.ranking-sort-icon {
+    font-size: 1rem;
+    margin-left: 0.5rem;
+    padding-bottom: 3px;
+}
+
+@media (max-width: 700px) {
+    .ranking-sort-icon {
+        margin-left: 0;
+    }
+}
+
+.ranking-sort-btn svg {
+    height: 27px;
+    width: 12px;
+    transform: scale(0.7);
+}
+
+.ranking-sort-btn:disabled svg, .ranking-sort-btn:hover svg {
+    height: 27px;
+    width: 12px;
+    transform: scale(1.1);
+    transition: 0.1s linear;
+}
+
+.ranking-sort-icon svg path {
+    fill: lightgrey;
+}
+
+.ranking-sort-btn:disabled svg path, .ranking-sort-btn:hover svg path {
+    fill: #515156;
+}
+
+
+.ranking-sort-btn {
+    background-color: transparent;
+    border: 0;
+    font-size: 1.5rem;
+    opacity: 0.5;
+    width: 80px;
+}
+
+
+
+.ranking-sort-btn:disabled, .ranking-sort-btn:hover {
+    background-color: transparent;
+    border: 0;
+    font-size: 2rem;
+    color: black;
+    opacity: 1;
+    transition: 0.1s linear;
 }
 
 .ranking-item {
@@ -16,6 +83,7 @@
     /* box-shadow: 2px 2px 1px #ebe7ca; */
     border: 1px solid #F1F2EC;
     border-radius: 10px;
+    transition: linear 0.1s;
 }
 
 @media (max-width: 700px) {
@@ -24,20 +92,34 @@
     }
 }
 
+/* animations for items list */
+
+
+.ranking-item-animated {
+    animation-duration: .5s;
+    animation-name: fadein;
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
 .ranking-item-text {
     font-size: 1.2rem;
     font-family: 'Lora', serif;
     margin-bottom: 2px;
-    padding: 1rem 1rem 1rem 1rem;
+    padding: 1rem;
 }
 
 .ranking-item-button-row {
     padding-left: 1rem;
 }
-
-/* .ranking-upvote-span {
-
-} */
 
 .ranking-upvote-btn {
     font-size: 1rem;

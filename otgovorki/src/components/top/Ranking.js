@@ -1,52 +1,26 @@
 import React, {useState, useEffect} from "react";
-import Card from "react-bootstrap/Card";
 import RankingItem from "./RankingItem";
-import {defaultItems} from "./defaultItems.js"
+import {SortingIconArrow} from "./SortingIcons";
+import {defaultItems} from "./defaultItems.js";
+
 
 function Ranking() {
 
-    const [testConfig] = useState(true);
-    const [items, setItems] = useState();
-    const [sortType, setSortType] = useState('likes');
+    const [testConfig] = useState(false);
+    const [items, setItems] = useState([]);
+    const [numToLoad] = useState(10);
+    const [sortType, setSortType] = useState();
     const [isSorted, setIsSorted] = useState();
-    const [itemsLoaded, setItemsLoaded] = useState(0);
 
-    if (testConfig && !items) {
-        setItems((prevItems) => {
-            return defaultItems;
-        });
-    }
-
+    // load otgovorki once on page load
     useEffect(() => {
-        if (items && !isSorted) {
-            console.log('have items but no sort')
-            sortItems();
-        }
-    })
-
-    useEffect(() => {
-        loadOtgovorki('like', 0, 10);
+        loadItems();
     }, [])
 
-    useEffect(() => {
-        console.log(items);
-        console.log('fetching items...');
-
-        //loadOtgovorki('like', 0, 10);
-
-        console.log('sort type: ', sortType);
-        if (items) {
-            sortItems();
-        }
-        
-        console.log('sorted: ', items);
-    }, [])
-
-    function loadOtgovorki(sort, currentNum, numToLoad) {
-
+    function loadItems() {
         fetch(
             // pass active settings as request url params
-            `/api/otgovorki/get?sort=${sort}&currentNum=${currentNum}&numToLoad=${numToLoad}`,
+            `/api/otgovorki/get?sort=${sortType}&currentNum=${items.length}&numToLoad=${numToLoad}`,
             {
                 method: "GET",
                 mode: "cors"
@@ -54,19 +28,47 @@ function Ranking() {
             .then((res) => res.json())
             .then((data) => {
                 // store new otgovorka in state variable
-                console.log('fetched items', data)
-                setItems(data);
-                setItemsLoaded(true);
-                console.log('items are', items)
-            })
+                console.log('fetched items', data);
+                setItems((prevItems) => {
+                    //if (data.length) {}
+                    return [...prevItems, ...data] })
+                    })
             .catch((error) => {
-                setItemsLoaded(false);
-                setItems(defaultItems);
                 console.log(error);
             });
+        console.log('set items from fetched:', items);
     }
 
-    // TODO: удаление старой отговорки. и сделать новую функцию для сортировки списка
+
+    // if testing, add some mock items
+    useEffect(() => {      
+        if (testConfig) {
+            console.log('setting default items:', defaultItems)
+            setItems(prevItems => {
+                return [...prevItems, ...defaultItems];
+            });
+            console.log('set items from default:', items);
+        };
+        
+    }, [items, testConfig])
+
+
+    // handle scroll to bottom
+    useEffect(() => {
+        function onScroll() {
+            if ((window.innerHeight + window.pageYOffset) >= document.body.scrollHeight) {
+                console.log("you're at the bottom of the page");
+                // TODO: дозагрузка
+                loadItems();
+            }
+        }
+        window.addEventListener("scroll", onScroll);
+    
+        return () => window.removeEventListener("scroll", onScroll);
+    });
+
+
+    // 
     function updateOtgovorkaValue(newOtgovorka) {
         let oldItems = items;
         console.log('old items:', oldItems);
@@ -76,42 +78,71 @@ function Ranking() {
                 return newOtgovorka;
             } else return item;
         });
-        console.log('new items:', newItems)
-        // вот тут что-то идёт не так
-        setItems(() => newItems);
-        console.log('updated items:', items);
-        sortItems();
-        console.log('sorted updated items:', items);
-        
-        //setItems(Set(items));
-    }
-
-    function sortItems() {
-        console.log('starting sort...')
         setItems(() => {
-            console.log(sortType);
-            let sortedItems;
-            if (sortType === 'likes') {
-                sortedItems = items.sort((a, b) => b.likes_count - a.likes_count);
-            } else if (sortType === 'laughs') {
-                sortedItems = items.sort((a, b) => b.laughs_count - a.laughs_count);
-            } else if (sortType === 'doubts') {
-                sortedItems = items.sort((a, b) => b.doubts_count - a.doubts_count);
-            };
-            console.log('sorted items! : ', sortedItems)
-            return sortedItems;
-        });
-        setIsSorted(true);
-
+            console.log('updating items...');
+            return newItems});
     }
 
-    console.log('current items:', items)
+    // sort items based on current sort type
+    function sortItems(type) {
+        console.log('starting sort...')
+        setIsSorted(false);
+        console.log('set isSorted to: ', isSorted)
+        if (type === 'likes') {
+            return items.sort((a, b) => b.likes_count - a.likes_count);
+        } else if (type === 'laughs') {
+            return items.sort((a, b) => b.laughs_count - a.laughs_count);
+        } else if (type === 'doubts') {
+            return items.sort((a, b) => b.doubts_count - a.doubts_count);
+        };
+    }
+
+    
+    // sort items on render
+    useEffect(() => {
+        if (!sortType) {
+            setSortType('likes');
+        }
+        if (items && items.length > 0) {
+            setItems(sortItems(sortType));
+        }
+        // это нужно чтобы правильно обновлялось
+        setIsSorted(true);
+    }, [sortType, items, sortItems])
+
+    function handleSort(event) {
+        if (!isSorted) {
+            setIsSorted(true);
+        }
+        const name = event.target.name;
+        //setSortType(name);
+        setIsSorted(() => {
+            setSortType(name);
+            return false;
+        });
+    }
+
+    function hadleLoadItemsError() {
+        // костылик для периодического бага при смене фильтра
+        window.location.reload();
+    }
+
+    // console.log('current items are:', items)
 
     return <div className="ranking-container">
-                {items && isSorted && items.map((item, index) => {
-                    return <RankingItem otgovorka={item} key={index} onUpdate={updateOtgovorkaValue}/>
-                    })
-                }
+                <div className="sorting-buttons-container">
+                        <button className="ranking-sort-btn" name="likes" disabled={sortType === 'likes'} onClick={handleSort} title="сортировать по 'неплохо'"><SortingIconArrow/>👍</button>
+                        <button className="ranking-sort-btn" name="laughs" disabled={sortType === 'laughs'} onClick={handleSort} title="сортировать по 'смешно'"><SortingIconArrow/>🤣</button>
+                        <button className="ranking-sort-btn" name="doubts" disabled={sortType === 'doubts'} onClick={handleSort} title="сортировать по 'эээ...'"><SortingIconArrow/>🤔</button>
+                </div>
+                <div className={isSorted && "ranking-item-animated"}>
+                    {items ? 
+                        items.map((item, index) => {
+                            return <RankingItem otgovorka={item} key={index} onUpdate={updateOtgovorkaValue}/>   
+                        })
+                    : hadleLoadItemsError()
+                    }
+                </div>
            </div>
 }
 

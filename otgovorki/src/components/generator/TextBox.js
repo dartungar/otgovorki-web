@@ -40,9 +40,9 @@ function TextBox(props) {
                 {isLoading 
                 ? <div className="loader-box"><span className="emoji-loader" role="img">{props.isSexMale ? "🤷‍♂️" : "🤷‍♀️"}</span> </div>
                 : 
-                <p className="main-text-row" onDoubleClick={handleDoubleClickOrTouch} onTouchStart={handleDoubleClickOrTouch}>{props.otgovorka.content}</p>
+                <p className="main-text-row generated-text-row-animated" onDoubleClick={handleDoubleClickOrTouch} onTouchStart={handleDoubleClickOrTouch}>{props.otgovorka.content}</p>
                 }
-                <UpvoteButtonRow isLoading={isLoading} otgovorka={otgovorka}/>       
+                <UpvoteButtonRow isLoading={isLoading} otgovorka={otgovorka} isLoadingFailed={props.isLoadingFailed}/>       
             </div> 
             
  
