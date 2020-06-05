@@ -11,7 +11,7 @@ function SubmitMessage(props) {
         } else {
             setButtonTitle("Попробовать ещё раз");
         }
-    }, [])
+    })
 
     function handleRefreshButtonClick() {
         window.location.reload();

@@ -32,7 +32,10 @@
 }
 
 .submit-success-message {
-    width: 30%;
-    background-color: #F1F2EC;
+    font-weight: 600;
     color: #c1b656;
+}
+
+.submit-error-message {
+    font-weight: 600;
 }

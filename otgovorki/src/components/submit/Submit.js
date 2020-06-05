@@ -41,7 +41,7 @@ function Submit() {
     }
 
     return <div className="submit-container">
-            {isSubmitted ? <SubmitMessage/> :
+            {isSubmitted ? <SubmitMessage isSubmittSuccessful={isSubmittSuccessful}/> :
                 <Form>
                     <Form.Control className="text-area-submit" as="textarea" rows="4" placeholder="Предложите отговорку. Постарайтесь без грубостей!" onChange={handleChange} value={text}/>
                     <Button className="submit-btn" type="submit" onClick={handleClick}>Отправить</Button>
