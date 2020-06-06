@@ -20,7 +20,6 @@ function App() {
   }, [currentPage])
 
   function changeCurrentPage(event) {
-    console.log(event.target.name);
     setCurrentPage(event.target.name);
   }
 

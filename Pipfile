@@ -13,6 +13,7 @@ flask = "*"
 flask-cors = "*"
 pymorphy2 = "*"
 xlrd = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.7"

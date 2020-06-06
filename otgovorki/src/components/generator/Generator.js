@@ -53,6 +53,7 @@ function Generator() {
     // used in TextBox component
     function isSexMale() {
         if (!settings) {
+            // sorry ladies
             return true;
         } else {
             const sex = settings.filter((item) => {return item.isActive && item.settingTypeID === 3 })[0]["value"];
@@ -62,7 +63,7 @@ function Generator() {
         }
     }
 
-
+    // fetch otgovorka from API
     function loadGeneratedOtgovorka() {
         var params = composeParameters();
         setIsLoading(true);

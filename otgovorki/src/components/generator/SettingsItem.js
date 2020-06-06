@@ -40,6 +40,7 @@ function SettingsItem(props) {
             props.onCheck(newSettings);
         } 
     }
+
     // find setting based on current item's id
     // and change it in settings
     function findAndChangeOption(settingID, settingTypeID) {
@@ -56,17 +57,18 @@ function SettingsItem(props) {
     }
 
         return <div>
-            <input 
-            className="form-check-input checkmark"
-            type='radio' 
-            checked={isActive}
-            disabled={isDisabled}
-            label={props.title} 
-            id={props.settingID}
-            name={props.settingTypeID}
-            onChange={handleChange}
-        /> <label htmlFor={props.settingID}>{props.title}</label>
-        </div>
+                    <input 
+                    className="form-check-input checkmark"
+                    type='radio' 
+                    checked={isActive}
+                    disabled={isDisabled}
+                    label={props.title} 
+                    id={props.settingID}
+                    name={props.settingTypeID}
+                    onChange={handleChange}
+                    /> 
+                    <label htmlFor={props.settingID}>{props.title}</label>
+                </div>
 }
 
 export default SettingsItem;
