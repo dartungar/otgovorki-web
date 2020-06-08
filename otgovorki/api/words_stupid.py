@@ -11,6 +11,10 @@ class Subject():
         # TODO: если субъект не ты, то добавлять что-то типа "надо помочь", "не могу отказаться", "придется помочь" и т.д.
         # возможно это уже совсем другой шаблон
 
+        # сейчас субъектом может быть только человек
+        # 'кошка рожала' - на потом
+        self.is_person = True
+
         if subject_is_myself:
             self.word = 'я'
         else:
@@ -144,7 +148,6 @@ class Predicate():
         
 
         # TODO: более изящное решение через БД
-        #self.case_object = self.info.case_object.iloc[0]
         self.aspc = aspc
         self.type = self.info.type.iloc[0]
         if self.type == 'volit':
@@ -159,7 +162,8 @@ class Predicate():
 
 class NounSpice():
     def __init__(self, words, morph, noun_parsed=None):
-        if ('anim' in noun_parsed.tag and 'Name' not in noun_parsed.tag and 'Geox' not in noun_parsed.tag) or 'anim' not in noun_parsed.tag:
+        # "мой Вася" или "мой Урал" не канает
+        if ('Name' not in noun_parsed.tag and 'Geox' not in noun_parsed.tag):
             self.word = random.choice(['мой', 'свой'])
             self.parsed = parse(self.word, parse_exceptions, morph=morph) #morph.parse(self.word)[0]
         else:
@@ -171,6 +175,7 @@ class Noun():
     def __init__(self, words, morph, noun_type, case=None, context=None, min_seriousness=None, max_seriousness=None):
         self.case = case
         self.type = noun_type
+        self.is_person = False
         nouns = words['noun'].fillna(value=0)
 
         if context:
@@ -187,19 +192,20 @@ class Noun():
             print(f'could not find noun of type {noun_type} with context {context}!')
             self.info = nouns.sample() 
 
-        n =  parse(self.info.iloc[0, 0], parse_exceptions, morph=morph) #morph.parse(self.info.iloc[0, 0])[0]
-        #print(f'type: {noun_type}, case: {case}')
+        word_raw = self.info.iloc[0, 0]
+        self.is_capitalized = True if word_raw[0].isupper() else False  
+
+
+        n =  parse(word_raw, parse_exceptions, morph=morph) #morph.parse(self.info.iloc[0, 0])[0]
+
         self.word = n.word
         
         if len(self.word.split(' ')) == 1:
-        #self.word = self.parsed.inflect({'datv'}).word
             self.parsed = n
             self.parsed = declensify(morph, self.parsed, [case])
             self.word = self.parsed.word
         else:
-            #print(self.word)
             self.word = declensify_text(morph, self.word, [case])
-            #print(self.word)
             self.parsed = parse(self.word.split(' ')[1], parse_exceptions, morph=morph) #morph.parse(self.word.split(' ')[1])[0]
 
         if '1per' not in self.parsed.tag and '2per' not in self.parsed.tag: 
@@ -215,9 +221,13 @@ class Noun():
             if gender in self.parsed.tag:
                 self.gender = gender
         
-        self.needs_capitalizing = self.info.needs_capitalizing.iloc[0]
-        if self.needs_capitalizing:
+        if self.is_capitalized:
             self.word = self.word.capitalize()
+        else:
+            self.word = self.word.lower()
+
+        if 'Name' in self.parsed.tag and 'anim' in self.parsed.tag:
+            self.is_person = True
      
 
 class BeginningSpice():
@@ -266,7 +276,7 @@ class Greeting():
 
 # разные предложения, добавляемые до или после основного, ради правдоподобности
 class EndingSentence():
-    def __init__(self, words, morph, tense='pres', type='ending', custom_word_parsed=None, context=None, subj_sex=None, min_seriousness=None, max_seriousness=None):
+    def __init__(self, words, morph, tense='pres', type='ending', custom_word_parsed=None, is_person=False, context=None, subj_sex=None, min_seriousness=None, max_seriousness=None):
         sentences = words['sentences'].fillna(value=0)
 
         if context:
@@ -282,7 +292,11 @@ class EndingSentence():
 
 
         if custom_word_parsed:
-            self.info = sentences[((sentences.tense==tense)|(sentences.tense=='all'))&(sentences.type==type)&(sentences.is_custom==True)].sample()
+            if is_person:
+                self.info = sentences[((sentences.tense==tense)|(sentences.tense=='all'))&(sentences.type==type)&(sentences.is_custom==True)&(sentences.is_about_person==1)].sample()
+            else:
+                self.info = sentences[((sentences.tense==tense)|(sentences.tense=='all'))&(sentences.type==type)&(sentences.is_custom==True)].sample()
+
             self.word = self.info.sentence.iloc[0]
 
             # если подставляемое слово в начале предложения, надо его капитализовать
@@ -290,7 +304,8 @@ class EndingSentence():
             if self.word[0] == '<':
                 custom_word_at_beginning = True
 
-            self.word = self.word.strip().capitalize()
+            # убираем лишние пробелы
+            self.word = self.word.strip()
             case = self.info.word_case.iloc[0]
             #print(f'custon_word_parsed: {custom_word_parsed}, case {case}')
             word = custom_word_parsed.inflect({case}).word
@@ -301,13 +316,15 @@ class EndingSentence():
             else:
                 custom_word_parsed = declensify_text(morph, custom_word_parsed.word, [case])
                 #print(self.word)
-            if needs_capitalizing(morph, word) or custom_word_at_beginning:
+            if needs_capitalizing(morph, word) or custom_word_at_beginning or custom_word_parsed.is_person:
                 word = word.capitalize()
+            self.word = self.word.capitalize()
             self.word = self.word.replace('<word>', word)
         else:
             self.info = sentences[((sentences.tense==tense)|(sentences.tense=='all'))&(sentences.type==type)&(sentences.is_custom==False)].sample()
             self.word = self.info.sentence.iloc[0]
-            self.word = self.word.strip().capitalize()
+            self.word = self.word.strip()
+            self.word = self.word.capitalize()
         
         #print(self.word)
     

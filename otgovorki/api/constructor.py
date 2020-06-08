@@ -20,15 +20,17 @@ def constructor(words, morph, tense='futr', context=None, is_nonsense=False,
                 has_ending=False,
                 subj_sex=None):
     
-
+    # список слов из которых построится отговорка
     word_list = []
-    unexplained_person = None
+
+    # персонажи отговорки, будут использованы для дополнительного предложения ("потом объясню про Васю")
+    unexplained_people = []
 
     # subject
     subject = Subject(words=words, morph=morph, datv=subj_datv, context=context, subject_is_myself=subject_is_myself, subj_sex=subj_sex, min_seriousness=min_seriousness, max_seriousness=max_seriousness)
 
-    if 'Name' in subject.parsed.tag:
-        unexplained_person = subject
+    if 'Name' in subject.parsed.tag and 'anim' in subject.parsed.tag:
+        unexplained_people.append(subject)
         word_list.append(subject.word.capitalize())
     else:
         word_list.append(subject.word)
@@ -38,13 +40,13 @@ def constructor(words, morph, tense='futr', context=None, is_nonsense=False,
     predicate_spice = ''
     pred_aspc = 'impf'
     # фиксим несоответствие, если задали кривые вводные параметры
-    if not has_predicate_spice and 'datv' in subject.parsed.tag:
+    if not has_predicate_spice and subject.is_datv:
         has_predicate_spice = True
     # мне нужно будет ...
     if has_predicate_spice and to_be:
         predicate_spice = PredicateSpice(words=words, morph=morph, tense=tense, subj=subject, to_be=to_be).word
     # мне нужно ... или я пообещал ...
-    elif (has_predicate_spice or 'datv' in subject.parsed.tag) and not to_be:
+    elif (has_predicate_spice or subject.is_datv) and not to_be:
         predicate_spice = PredicateSpice(words=words, morph=morph, tense=tense, subj=subject, to_be=to_be).word
         pred_aspc = 'perf'
     # несовершенные глаголы не могут быть в настоящем! оставляем только совершенные
@@ -79,8 +81,8 @@ def constructor(words, morph, tense='futr', context=None, is_nonsense=False,
     if rules.word1.iloc[0]:
         if rules.word1.iloc[0] == 'noun':
             word1 = Noun(words=words, morph=morph, noun_type=rules.word1_type.iloc[0], case=rules.word1_case.iloc[0], context=context, min_seriousness=min_seriousness, max_seriousness=max_seriousness)
-            if 'Name' in word1.parsed.tag:
-                unexplained_person = word1
+            if word1.is_person:
+                unexplained_people.append(word1)
         #print(word1.word)
 
         if rules.word1_predlog.iloc[0]:
@@ -94,8 +96,8 @@ def constructor(words, morph, tense='futr', context=None, is_nonsense=False,
         # word2
         if rules.word2.iloc[0] == 'noun':
             word2 = Noun(words=words, morph=morph, noun_type=rules.word2_type.iloc[0], case=rules.word2_case.iloc[0], context=context, min_seriousness=min_seriousness, max_seriousness=max_seriousness)
-            if 'Name' in word2.parsed.tag:
-                unexplained_person = word2
+            if word2.is_person:
+                unexplained_people.append(word2)
         # predlog
         if rules.word2_predlog.iloc[0]:
             word2_predlog = rules.word2_predlog.iloc[0]
@@ -108,8 +110,8 @@ def constructor(words, morph, tense='futr', context=None, is_nonsense=False,
         # word3
         if rules.word3.iloc[0] == 'noun':
             word3 = Noun(words=words, morph=morph, noun_type=rules.word3_type.iloc[0], case=rules.word3_case.iloc[0], context=context, min_seriousness=min_seriousness, max_seriousness=max_seriousness)
-            if 'Name' in word3.parsed.tag:
-                unexplained_person = word3
+            if word3.is_person:
+                unexplained_people.append(word3)
         # predlog
         if rules.word3_predlog.iloc[0]:
             word3_predlog = rules.word3_predlog.iloc[0]
@@ -117,7 +119,7 @@ def constructor(words, morph, tense='futr', context=None, is_nonsense=False,
 
         word_list.append(word3.word)
 
-    # запятая в конце основного предложения
+    # точка в конце основного предложения
     word_list.append('.')
 
 
@@ -149,8 +151,9 @@ def constructor(words, morph, tense='futr', context=None, is_nonsense=False,
 
 
     # если вбросили какое-то имя - даем подобие объяснения
-    if unexplained_person:
-        explanation = EndingSentence(words=words, morph=morph, tense=tense, type='explanation', context=context, subj_sex=subj_sex, custom_word_parsed=unexplained_person.parsed, min_seriousness=min_seriousness, max_seriousness=max_seriousness)
+    if unexplained_people:
+        unexplained_person = random.choice(unexplained_people)
+        explanation = EndingSentence(words=words, morph=morph, tense=tense, type='explanation', context=context, subj_sex=subj_sex, custom_word_parsed=unexplained_person.parsed, is_person=True, min_seriousness=min_seriousness, max_seriousness=max_seriousness)
         #print(end_sentence.word)
         word_list.append(explanation.word)
         word_list.append('.')
@@ -161,9 +164,10 @@ def constructor(words, morph, tense='futr', context=None, is_nonsense=False,
         if has_cwp:
             if not subject.is_myself:
                 cwp = subject.parsed #TODO: добавить ExplainSentence
+                explanation = EndingSentence(words=words, morph=morph, tense=tense, type='ending', custom_word_parsed=cwp, is_person=True, context=context, subj_sex=subj_sex, min_seriousness=min_seriousness, max_seriousness=max_seriousness)
             elif word1:
                 cwp = word1.parsed
-            explanation = EndingSentence(words=words, morph=morph, tense=tense, type='ending', custom_word_parsed=cwp, context=context, subj_sex=subj_sex, min_seriousness=min_seriousness, max_seriousness=max_seriousness)
+                explanation = EndingSentence(words=words, morph=morph, tense=tense, type='ending', custom_word_parsed=cwp, is_person=False, context=context, subj_sex=subj_sex, min_seriousness=min_seriousness, max_seriousness=max_seriousness)
             word_list.append(explanation.word)
             word_list.append('.')
             
@@ -172,6 +176,8 @@ def constructor(words, morph, tense='futr', context=None, is_nonsense=False,
 
     return word_list
 
+
+# примитивное рандомизированное предложение
 def basic_constructor(words, morph, is_nonsense=False, subject_is_myself=True, min_seriousness=None, max_seriousness=None, context=None, subj_sex=None, tense=None):
     if not tense:
         tense = random.choice(['past', 'futr'])

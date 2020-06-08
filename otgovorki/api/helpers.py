@@ -85,14 +85,7 @@ def declensify_text(morph, text, tags, tense='pres'):
 def create_text_from_list(morph, word_list):
     text = ''
 
-    # for word in word_list:
-    #     if needs_capitalizing(morph, word):
-    #         word = word.capitalize()
-    #     text += word
-    #     text += ' '
-
     text = ' '.join(word_list)
-    #text = text.replace(' . ', '. ')
     text = text.replace(' .', '.')
     text = text.replace('  ', ' ')
     return text
