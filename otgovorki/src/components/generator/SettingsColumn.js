@@ -1,23 +1,19 @@
-import React, { useContext } from "react";
+import React from "react";
 import SettingsItem from "./SettingsItem";
-import SettingsContext from "../../context/settings/settingsContext";
 
 function SettingsColumn(props) {
-  const settingsContext = useContext(SettingsContext);
-
+  const { settingType, title, options, activeOption } = props.setting;
   return (
     <div>
-      <h5>{props.title}</h5>
+      <h5>{title}</h5>
       <div className="settings-column">
-        {props.items.map((item, index) => {
+        {options.map((item, index) => {
           return (
             <SettingsItem
               key={index}
-              isActive={item.isActive}
-              settingID={item.id}
-              settingTypeID={item.settingTypeID}
-              title={item.title}
-              value={item.value}
+              setting={item}
+              settingType={settingType}
+              isActive={item.value === activeOption.value}
             />
           );
         })}

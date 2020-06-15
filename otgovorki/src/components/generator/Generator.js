@@ -2,11 +2,11 @@ import React, { useState, useEffect, useContext } from "react";
 import TextBox from "./TextBox";
 import MainButtonRow from "./MainButtonRow";
 import SettingsBox from "./SettingsBox";
-import SettingsContext from "../../context/settings/settingsContext";
+import GeneratorContext from "../../context/generator/generatorContext";
 
 function Generator() {
-  const settingsContext = useContext(SettingsContext);
-  const { settings, isVisible } = settingsContext;
+  const generatorContext = useContext(GeneratorContext);
+  const { settings, isSettingsBoxVisible } = generatorContext;
 
   // state
   const [otgovorka, setOtgovorka] = useState({
@@ -32,18 +32,10 @@ function Generator() {
   // find active settings & compose an object for request to the API
   function composeParameters() {
     const params = {
-      plausibility: settings.filter((item) => {
-        return item.isActive && item.settingTypeID === 1;
-      })[0]["value"],
-      theme: settings.filter((item) => {
-        return item.isActive && item.settingTypeID === 2;
-      })[0]["value"],
-      sex: settings.filter((item) => {
-        return item.isActive && item.settingTypeID === 3;
-      })[0]["value"],
-      tense: settings.filter((item) => {
-        return item.isActive && item.settingTypeID === 4;
-      })[0]["value"],
+      plausibility: settings.plausibility.activeOption.value,
+      theme: settings.theme.activeOption.value,
+      sex: settings.sex.activeOption.value,
+      tense: settings.tense.activeOption.value,
     };
     console.log(params);
     return params;
@@ -52,18 +44,10 @@ function Generator() {
   // if sex is male, 'loader' emoji will be male, same for female
   // used in TextBox component
   function isSexMale() {
-    if (!settings) {
-      // sorry ladies
+    if (settings.sex.activeOption.value === "masc") {
       return true;
     } else {
-      const sex = settings.filter((item) => {
-        return item.isActive && item.settingTypeID === 3;
-      })[0]["value"];
-      if (sex === "masc") {
-        return true;
-      } else {
-        return false;
-      }
+      return false;
     }
   }
 
@@ -108,7 +92,7 @@ function Generator() {
         isLoading={isLoading}
         handleClickSubmit={loadGeneratedOtgovorka}
       />
-      {isVisible && <SettingsBox />}
+      {isSettingsBoxVisible && <SettingsBox />}
     </div>
   );
 }

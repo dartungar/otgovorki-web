@@ -2,10 +2,10 @@ import React, { useContext } from "react";
 import Button from "react-bootstrap/Button";
 import InfoPopover from "./InfoPopover";
 import { FaCog, FaRedoAlt, FaQuestion } from "react-icons/fa";
-import SettingsContext from "../../context/settings/settingsContext";
+import GeneratorContext from "../../context/generator/generatorContext";
 
 function MainButtonRow(props) {
-  const settingsContext = useContext(SettingsContext);
+  const generatorContext = useContext(GeneratorContext);
 
   // buttons
   // left to right
@@ -17,7 +17,7 @@ function MainButtonRow(props) {
         variant="outline-secondary"
         title="Настройки"
         disabled={props.isLoading}
-        onClick={settingsContext.toggleSettingsVisibility}
+        onClick={generatorContext.toggleSettingsVisibility}
       >
         <FaCog />
       </Button>

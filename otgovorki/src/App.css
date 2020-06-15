@@ -312,3 +312,11 @@ on small screens, do not render at all to prevent footer running away */
 }
 
 /* footer */
+
+/* .footer {
+  min-height: 10%;
+} */
+
+.footer p {
+  margin: 30px 0 30px;
+}

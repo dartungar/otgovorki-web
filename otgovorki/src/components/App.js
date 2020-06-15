@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Logo from "./Logo";
 import Header from "./Header";
@@ -7,7 +7,7 @@ import Generator from "./generator/Generator";
 import Ranking from "./ranking/Ranking";
 import Submit from "./submit/Submit";
 import NotFound from "./NotFound";
-import SettingsState from "../context/settings/SettingsState";
+import GeneratorState from "../context/generator/GeneratorState";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../App.css";
 import "./ranking/Ranking.css";
@@ -17,7 +17,7 @@ function App() {
   // basic structure of the app
   // header, main container, footer
   return (
-    <SettingsState>
+    <GeneratorState>
       <Router>
         <div className="app-container d-flex flex-column">
           <Logo />
@@ -28,13 +28,10 @@ function App() {
             <Route exact path="/submit" component={Submit} />
             <Route component={NotFound} />
           </Switch>
-
-          <div>
-            <Footer />
-          </div>
+          <Footer />
         </div>
       </Router>
-    </SettingsState>
+    </GeneratorState>
   );
 }
 

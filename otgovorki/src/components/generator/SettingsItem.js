@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import SettingsContext from "../../context/settings/settingsContext";
+import GeneratorContext from "../../context/generator/generatorContext";
 
 function SettingsItem(props) {
-  const settingsContext = useContext(SettingsContext);
+  const generatorContext = useContext(GeneratorContext);
+  const { settings, setSettings } = generatorContext;
 
   // state
   // isActive: is current item active, affects display
@@ -15,42 +16,35 @@ function SettingsItem(props) {
     setIsActive(props.isActive);
   }, [props.isActive]);
 
-  // determine level of 'adequacy'
-  // on some levels some options are disabled
-  let adequacyLevel = settingsContext.settings.filter((setting) => {
-    return setting.settingTypeID === 1 && setting.isActive === true;
-  })[0]["id"];
-
   // determine if current level of adequacy affects this settings item's display
   useEffect(() => {
-    if (adequacyLevel !== 1) {
-      if (props.settingTypeID !== 1) {
+    if (settings.plausibility.activeOption.value !== "adequate") {
+      if (!["adequate", "funny", "insane"].includes(props.setting.value)) {
         setIsDisabled(true);
       }
     } else {
       setIsDisabled(false);
     }
-  }, [adequacyLevel, props.settings, props.settingTypeID]);
+  });
 
   return (
     <div>
       <input
         className="form-check-input checkmark"
         type="radio"
+        name={props.setting.value}
+        id={props.setting.value}
         checked={isActive}
         disabled={isDisabled}
-        label={props.title}
-        id={props.settingID}
-        name={props.settingTypeID}
         onChange={() =>
-          settingsContext.setSettings({
-            id: props.settingID,
-            settingTypeID: props.settingTypeID,
+          setSettings({
+            setting: props.setting,
+            settingType: props.settingType,
             isActive: isActive,
           })
         }
       />
-      <label htmlFor={props.settingID}>{props.title}</label>
+      <label htmlFor={props.setting.value}>{props.setting.title}</label>
     </div>
   );
 }
