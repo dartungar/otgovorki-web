@@ -1,8 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Button from "react-bootstrap/Button";
 import { registerUpvote } from "../../utils";
+import GeneratorContext from "../../context/generator/generatorContext";
 
 function UpvoteButtonRow(props) {
+  const generatorContext = useContext(GeneratorContext);
+  const {
+    generatedOtgovorka,
+    isLoading,
+    isLoadingFailed,
+    isCopyMessageVisible,
+  } = generatorContext;
+
   const defaultButtonsState = { like: false, laugh: false, doubt: false };
 
   const [isButtonClicked, setButtonsState] = useState({ defaultButtonsState });
@@ -10,10 +19,10 @@ function UpvoteButtonRow(props) {
   const upvoteTypes = { like: 1, laugh: 2, doubt: 3 };
 
   useEffect(() => {
-    if (!props.isLoading) {
+    if (isLoading) {
       setButtonsState(defaultButtonsState);
     }
-  }, [props.isLoading]);
+  }, [isLoading]);
 
   function handleButtonClick(event) {
     const { name } = event.target;
@@ -24,8 +33,8 @@ function UpvoteButtonRow(props) {
       };
     });
     registerUpvote(
-      props.otgovorka.id,
-      props.otgovorka.content,
+      generatedOtgovorka.id,
+      generatedOtgovorka.text,
       upvoteTypes[name]
     );
   }
@@ -34,9 +43,7 @@ function UpvoteButtonRow(props) {
     <div className="upvote-btn-row-container">
       <Button
         className="upvote-btn"
-        disabled={
-          isButtonClicked["like"] || props.isLoading || props.isLoadingFailed
-        }
+        disabled={isButtonClicked["like"] || isLoading || isLoadingFailed}
         variant="outline-light"
         name="like"
         title="Правдоподобно!"
@@ -46,9 +53,7 @@ function UpvoteButtonRow(props) {
       </Button>
       <Button
         className="upvote-btn"
-        disabled={
-          isButtonClicked["laugh"] || props.isLoading || props.isLoadingFailed
-        }
+        disabled={isButtonClicked["laugh"] || isLoading || isLoadingFailed}
         variant="outline-light"
         name="laugh"
         title="Смешно :)"
@@ -58,9 +63,7 @@ function UpvoteButtonRow(props) {
       </Button>
       <Button
         className="upvote-btn"
-        disabled={
-          isButtonClicked["doubt"] || props.isLoading || props.isLoadingFailed
-        }
+        disabled={isButtonClicked["doubt"] || isLoading || isLoadingFailed}
         variant="outline-light"
         name="doubt"
         title="Э-э-э..."

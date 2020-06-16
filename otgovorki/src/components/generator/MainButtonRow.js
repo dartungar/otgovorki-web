@@ -6,6 +6,11 @@ import GeneratorContext from "../../context/generator/generatorContext";
 
 function MainButtonRow(props) {
   const generatorContext = useContext(GeneratorContext);
+  const {
+    toggleSettingsVisibility,
+    loadGeneratedOtgovorka,
+    isLoading,
+  } = generatorContext;
 
   // buttons
   // left to right
@@ -16,8 +21,7 @@ function MainButtonRow(props) {
         className="custom-btn custom-btn-outline"
         variant="outline-secondary"
         title="Настройки"
-        disabled={props.isLoading}
-        onClick={generatorContext.toggleSettingsVisibility}
+        onClick={toggleSettingsVisibility}
       >
         <FaCog />
       </Button>
@@ -25,8 +29,8 @@ function MainButtonRow(props) {
         className="custom-btn custom-btn-filled"
         variant="dark"
         title="Обновить"
-        disabled={props.isLoading}
-        onClick={props.handleClickSubmit}
+        disabled={isLoading}
+        onClick={loadGeneratedOtgovorka}
       >
         <FaRedoAlt />
       </Button>
