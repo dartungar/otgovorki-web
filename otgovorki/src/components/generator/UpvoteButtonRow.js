@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import Button from "react-bootstrap/Button";
-import { registerUpvote } from "../../utils";
 import GeneratorContext from "../../context/generator/generatorContext";
+import RankingContext from "../../context/ranking/rankingContext";
 
 function UpvoteButtonRow(props) {
   const generatorContext = useContext(GeneratorContext);
@@ -11,6 +11,9 @@ function UpvoteButtonRow(props) {
     isLoadingFailed,
     isCopyMessageVisible,
   } = generatorContext;
+
+  const rankingContext = useContext(RankingContext);
+  const { registerUpvote } = rankingContext;
 
   const defaultButtonsState = { like: false, laugh: false, doubt: false };
 

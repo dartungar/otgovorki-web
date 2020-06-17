@@ -1,37 +1,32 @@
-import React, { useState, useEffect } from "react";
-import { registerUpvote } from "../../utils";
+import React, { useState, useContext } from "react";
+import RankingContext from "../../context/ranking/rankingContext";
 
 function RankingItem(props) {
-  const [isLoaded, setIsLoaded] = useState();
   const defaultButtonsState = { like: false, laugh: false, doubt: false };
+  const rankingContext = useContext(RankingContext);
+  const { registerUpvote, updateOtgovorkaValue } = rankingContext;
 
   const [isButtonClicked, setButtonsState] = useState({ defaultButtonsState });
 
   const upvoteTypes = { like: 1, laugh: 2, doubt: 3 };
 
-  useEffect(() => {
-    setIsLoaded(true);
-    // eslint-disable-next-line
-  }, []);
-
-  async function handleButtonClick(event) {
-    setIsLoaded(false);
-    const { name, disabled } = event.target;
-    console.log(event.target, event.target.name, upvoteTypes[name]);
+  async function handleButtonClick(btnName) {
     setButtonsState((prevValue) => {
       return {
         ...prevValue,
-        [name]: true,
+        [btnName]: true,
       };
     });
-    console.log(isButtonClicked);
     const updatedOtgovorka = await registerUpvote(
       props.otgovorka.id,
       props.otgovorka.content,
-      upvoteTypes[name]
+      upvoteTypes[btnName]
     );
-    console.log("new otgovorka:", updatedOtgovorka);
-    props.onUpdate(updatedOtgovorka);
+    console.log(
+      "updating otgovorka value from RankingItem component with ",
+      updatedOtgovorka
+    );
+    updateOtgovorkaValue(updatedOtgovorka);
   }
 
   //console.log(props.isSorted);
@@ -45,7 +40,7 @@ function RankingItem(props) {
             className="ranking-upvote-btn"
             name="like"
             disabled={isButtonClicked["like"]}
-            onClick={handleButtonClick}
+            onClick={() => handleButtonClick("like")}
             title="правдоподобно!"
           >
             👍
@@ -59,7 +54,7 @@ function RankingItem(props) {
             className="ranking-upvote-btn"
             name="laugh"
             disabled={isButtonClicked["laugh"]}
-            onClick={handleButtonClick}
+            onClick={() => handleButtonClick("laugh")}
             title="смешно :)"
           >
             🤣
@@ -73,7 +68,7 @@ function RankingItem(props) {
             className="ranking-upvote-btn"
             name="doubt"
             disabled={isButtonClicked["doubt"]}
-            onClick={handleButtonClick}
+            onClick={() => handleButtonClick("doubt")}
             title="э-э-э..."
           >
             🤔
