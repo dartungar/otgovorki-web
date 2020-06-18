@@ -29,6 +29,12 @@
   text-decoration: none;
 }
 
+/* global button styles  */
+
+button:focus {
+  outline: #c1b656;
+}
+
 /* logo (brand) */
 
 .logo {

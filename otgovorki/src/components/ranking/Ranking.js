@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import RankingItem from "./RankingItem";
+import ScrollToTopBtn from "./ScrollToTopBtn";
 import { SortingIconArrow } from "./SortingIcons";
 import RankingContext from "../../context/ranking/rankingContext";
 
@@ -11,9 +12,9 @@ function Ranking() {
     isRankingLoading,
     isRankingLoadingFailed,
     sortType,
-    sortItems,
     changeSortType,
-    itemsAreSorted,
+    itemsAreAnimated,
+    setItemsAreAnimated,
   } = rankingContext;
 
   // load otgovorki once on page load
@@ -22,11 +23,14 @@ function Ranking() {
     // eslint-disable-next-line
   }, []);
 
+  // if items are already animated on render, re-animate them
+  // because ranking should always fade-in smoothly after each change
   useEffect(() => {
-    if (!itemsAreSorted) {
-      sortItems();
+    console.log("items are animated? ", itemsAreAnimated);
+    if (itemsAreAnimated) {
+      setItemsAreAnimated(false);
     }
-  }, [itemsAreSorted]);
+  });
 
   // handle scroll to bottom
   useEffect(() => {
@@ -79,7 +83,7 @@ function Ranking() {
           🤔
         </button>
       </div>
-      <div className={itemsAreSorted && "ranking-items-animated"}>
+      <div className={!itemsAreAnimated && "ranking-items-animated"}>
         {isRankingLoading && (
           <div className="loader-box">
             <span className="emoji-loader" role="img">
@@ -97,14 +101,12 @@ function Ranking() {
             .
           </p>
         )}
-        {rankingItems ? (
+        {rankingItems &&
           rankingItems.map((item, index) => {
-            return <RankingItem otgovorka={item} key={index} />;
-          })
-        ) : (
-          <p>Oh wee!</p>
-        )}
+            return <RankingItem otgovorka={item} key={item.id} />;
+          })}
       </div>
+      <ScrollToTopBtn />
     </div>
   );
 }

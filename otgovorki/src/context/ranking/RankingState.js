@@ -6,7 +6,7 @@ import {
   SET_IS_RANKING_LOADING_FAILED,
   SET_RANKING_ITEMS,
   SET_SORT_TYPE,
-  SET_ITEMS_ARE_SORTED,
+  SET_ITEMS_ARE_ANIMATED,
 } from "../types";
 
 const RankingState = (props) => {
@@ -16,7 +16,7 @@ const RankingState = (props) => {
     rankingItems: [],
     itemsToLoad: 10,
     sortType: "likes",
-    itemsAreSorted: false,
+    itemsAreAnimated: false,
   };
 
   const [state, dispatch] = useReducer(rankingReducer, initialState);
@@ -90,6 +90,10 @@ const RankingState = (props) => {
     sortItems(newSortType);
   };
 
+  const setItemsAreAnimated = (value) => {
+    dispatch({ type: SET_ITEMS_ARE_ANIMATED, payload: value });
+  };
+
   // sort items based on said sort type
   const sortItems = (newSortType) => {
     const { rankingItems } = state;
@@ -109,9 +113,6 @@ const RankingState = (props) => {
       type: SET_RANKING_ITEMS,
       payload: newItems,
     });
-    dispatch({
-      type: SET_ITEMS_ARE_SORTED,
-    });
   };
 
   return (
@@ -121,9 +122,11 @@ const RankingState = (props) => {
         isRankingLoadingFailed: state.isRankingLoadingFailed,
         rankingItems: state.rankingItems,
         sortType: state.sortType,
+        itemsAreAnimated: state.itemsAreAnimated,
         loadItems,
         changeSortType,
         sortItems,
+        setItemsAreAnimated,
         registerUpvote,
         updateOtgovorkaValue,
       }}

@@ -137,3 +137,16 @@
   font-size: 0.8rem;
   transition: 0.5s ease;
 }
+
+/* scroll to top button */
+
+.scroll-to-top-btn {
+  font-size: 3rem;
+  color: #c1b656;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  cursor: pointer;
+  z-index: 1000;
+  animation: fadein 0.5s;
+}

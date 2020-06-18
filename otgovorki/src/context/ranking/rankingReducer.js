@@ -3,7 +3,7 @@ import {
   SET_IS_RANKING_LOADING_FAILED,
   SET_RANKING_ITEMS,
   SET_SORT_TYPE,
-  SET_ITEMS_ARE_SORTED,
+  SET_ITEMS_ARE_ANIMATED,
 } from "../types";
 
 const rankingReducer = (state, action) => {
@@ -30,12 +30,12 @@ const rankingReducer = (state, action) => {
       return {
         ...state,
         sortType: action.payload,
-        itemsAreSorted: false,
+        itemsAreAnimated: true,
       };
-    case SET_ITEMS_ARE_SORTED:
+    case SET_ITEMS_ARE_ANIMATED:
       return {
         ...state,
-        itemsAreSorted: true,
+        itemsAreAnimated: action.payload,
       };
   }
 };
