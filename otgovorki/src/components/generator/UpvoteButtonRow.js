@@ -5,12 +5,7 @@ import RankingContext from "../../context/ranking/rankingContext";
 
 function UpvoteButtonRow(props) {
   const generatorContext = useContext(GeneratorContext);
-  const {
-    generatedOtgovorka,
-    isLoading,
-    isLoadingFailed,
-    isCopyMessageVisible,
-  } = generatorContext;
+  const { generatedOtgovorka, isLoading, isLoadingFailed } = generatorContext;
 
   const rankingContext = useContext(RankingContext);
   const { registerUpvote } = rankingContext;
@@ -25,6 +20,7 @@ function UpvoteButtonRow(props) {
     if (isLoading) {
       setButtonsState(defaultButtonsState);
     }
+    // eslint-disable-next-line
   }, [isLoading]);
 
   function handleButtonClick(event) {

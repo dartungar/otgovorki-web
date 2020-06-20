@@ -35,6 +35,10 @@ button:focus {
   outline: #c1b656;
 }
 
+div:focus {
+  outline: none;
+}
+
 /* logo (brand) */
 
 .logo {
@@ -81,8 +85,8 @@ h3 {
 
 .main-container {
   min-width: 240px;
-  margin-top: auto;
-  margin-bottom: auto;
+  margin-top: 15%;
+  margin-bottom: 10px;
 }
 
 /* flashing message on copy */
@@ -168,6 +172,7 @@ on small screens, do not render at all to prevent footer running away */
 .upvote-btn {
   background-color: white;
   border-color: white;
+  color: #c1b656;
   min-width: 60px;
   min-height: 50px;
   padding: 0;
@@ -187,8 +192,8 @@ on small screens, do not render at all to prevent footer running away */
 /* main control buttons */
 
 .custom-btn {
-  width: 60px;
-  height: 45px;
+  width: 50px;
+  height: 40px;
   margin: 10px;
   border: 0;
   font-size: 1rem;
@@ -235,6 +240,8 @@ on small screens, do not render at all to prevent footer running away */
 /* settings */
 
 .settings-box {
+  position: relative;
+  z-index: 10;
   max-width: 500px;
   padding-left: 50px;
   text-align: left;
@@ -317,11 +324,50 @@ on small screens, do not render at all to prevent footer running away */
   content: "•";
 }
 
+/* share popup */
+
+.btn-div {
+  padding: 5px;
+  font-size: 1.1rem;
+  border-radius: 3px;
+}
+
+.btn-div:hover {
+  color: #f1f2ec;
+}
+
+.share-popup-container {
+  position: relative;
+  left: 55px;
+  bottom: 35px;
+  height: 50px;
+  width: 170px;
+  border: #c1b656 1px solid;
+  border-radius: 3px;
+  font-size: 1.5rem;
+  color: #c1b656;
+}
+
+@media screen and (max-width: 700px) {
+  .share-popup-container {
+    left: -125px;
+    top: 15px;
+  }
+}
+
+.share-popup-container:focus {
+  outline: #c1b656 1px solid;
+}
+
+.share-popup-element {
+  margin: 0 7px 0;
+}
+
 /* footer */
 
-/* .footer {
-  min-height: 10%;
-} */
+.footer {
+  margin: auto auto 0;
+}
 
 .footer p {
   margin: 30px 0 30px;

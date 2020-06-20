@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
 import Button from "react-bootstrap/Button";
+import ShareButton from "../layout/ShareButton";
+
 import InfoPopover from "./InfoPopover";
 import { FaCog, FaRedoAlt, FaQuestion } from "react-icons/fa";
 import GeneratorContext from "../../context/generator/generatorContext";
@@ -10,6 +12,7 @@ function MainButtonRow(props) {
     toggleSettingsVisibility,
     loadGeneratedOtgovorka,
     isLoading,
+    generatedOtgovorka,
   } = generatorContext;
 
   // buttons
@@ -43,6 +46,11 @@ function MainButtonRow(props) {
           <FaQuestion />
         </Button>
       </InfoPopover>
+
+      <ShareButton
+        url="https://otgovorki.dartungar.com"
+        text={generatedOtgovorka.text}
+      />
     </div>
   );
 }

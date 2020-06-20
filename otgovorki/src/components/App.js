@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Logo from "./Logo";
-import Header from "./Header";
-import Footer from "./Footer";
+import Logo from "./layout/Logo";
+import Header from "./layout/Header";
+import Footer from "./layout/Footer";
 import Generator from "./generator/Generator";
 import Ranking from "./ranking/Ranking";
 import Submit from "./submit/Submit";
-import NotFound from "./NotFound";
+import NotFound from "./layout/NotFound";
 import GeneratorState from "../context/generator/GeneratorState";
 import RankingState from "../context/ranking/RankingState";
 import "bootstrap/dist/css/bootstrap.min.css";

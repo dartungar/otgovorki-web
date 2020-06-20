@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { Fragment, useContext } from "react";
 import TextBox from "./TextBox";
 import MainButtonRow from "./MainButtonRow";
 import SettingsBox from "./SettingsBox";
@@ -9,11 +9,13 @@ function Generator() {
   const { isSettingsBoxVisible } = generatorContext;
 
   return (
-    <div className="main-container d-flex align-items-center flex-column justify-content-center">
-      <TextBox />
-      <MainButtonRow />
+    <Fragment>
+      <div className="main-container d-flex align-items-center flex-column justify-content-center">
+        <TextBox />
+        <MainButtonRow />
+      </div>
       {isSettingsBoxVisible && <SettingsBox />}
-    </div>
+    </Fragment>
   );
 }
 
