@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import RankingContext from "../../context/ranking/rankingContext";
+import ShareButton from "../layout/ShareButton";
 
 function RankingItem(props) {
   const defaultButtonsState = { like: false, laugh: false, doubt: false };
@@ -77,6 +78,11 @@ function RankingItem(props) {
             {props.otgovorka.doubts_count}
           </span>
         </span>
+        <ShareButton
+          url="https://otgovorki.dartungar.com"
+          text={props.otgovorka.content}
+          isSmall={true}
+        />
       </div>
     </div>
   );

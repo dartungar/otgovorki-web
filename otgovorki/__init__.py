@@ -113,10 +113,12 @@ def create_app(test_config=None, *args, **kwargs):
 
     @app.route('/api/otgovorki/get')
     def get_all_otgovorki():
+        print(request.args['sort'])
         sort_type_dict = {'likes': 'likes_count', 'laughs': 'laughs_count',
                           'doubts': 'doubts_count', 'undefined': 'likes_count'}
         sort_type = sort_type_dict[request.args['sort']
                                    ] if request.args['sort'] else 'likes_count'
+        print(sort_type)
         offset = int(request.args['currentNum']
                      ) if request.args['currentNum'] else 0
         limit = int(request.args['numToLoad']
@@ -129,7 +131,6 @@ def create_app(test_config=None, *args, **kwargs):
         # make it a JSON object with JSONified otgovorki
         otgovorki_json = json.dumps([o.to_json() for o in otgovorki])
         return otgovorki_json, 200, {'ContentType': 'application/json'}
-
 
     @app.route('/api/otgovorki/upvotes/get')
     def get_upvotes_for_otvovorka():

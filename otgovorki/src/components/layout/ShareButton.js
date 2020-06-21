@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { MdShare } from "react-icons/md";
 import SharePopup from "./SharePopup";
 
@@ -21,7 +21,9 @@ const ShareButton = (props) => {
   };
 
   const cancelShare = () => {
-    setIsPopupShown(false);
+    if (isPopupShown) {
+      setIsPopupShown(false);
+    }
   };
 
   return (
@@ -30,12 +32,17 @@ const ShareButton = (props) => {
       tabIndex="0"
       onFocus={share}
       onBlur={cancelShare}
-      className="custom-btn custom-btn-outline btn-div"
-      variant="outline-secondary"
       title="Поделиться"
+      className={
+        props.isSmall
+          ? "share-btn-small"
+          : "custom-btn custom-btn-outline btn-div"
+      }
     >
       <MdShare />
-      {isPopupShown && <SharePopup shareData={shareData} />}
+      {isPopupShown && (
+        <SharePopup shareData={shareData} isSmall={props.isSmall} />
+      )}
     </div>
   );
 };

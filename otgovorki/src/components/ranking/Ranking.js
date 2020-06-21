@@ -8,7 +8,9 @@ function Ranking() {
   const rankingContext = useContext(RankingContext);
   const {
     rankingItems,
-    loadItems,
+    loadFirstItems,
+    loadMoreItems,
+    itemsToLoad,
     isRankingLoading,
     isRankingLoadingFailed,
     sortType,
@@ -19,7 +21,7 @@ function Ranking() {
 
   // load otgovorki once on page load
   useEffect(() => {
-    loadItems();
+    loadFirstItems(sortType);
     // eslint-disable-next-line
   }, []);
 
@@ -41,7 +43,7 @@ function Ranking() {
       ) {
         console.log("you're at the bottom of the page");
         // TODO: дозагрузка
-        loadItems();
+        loadMoreItems();
       }
     }
     window.addEventListener("scroll", onScroll);

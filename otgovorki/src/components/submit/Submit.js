@@ -14,7 +14,6 @@ function Submit() {
 
   function handleClick(event) {
     event.preventDefault();
-    console.log(text);
     fetch("/api/submit/post", {
       method: "POST",
       mode: "cors",
@@ -51,7 +50,13 @@ function Submit() {
             onChange={handleChange}
             value={text}
           />
-          <Button className="submit-btn" type="submit" onClick={handleClick}>
+          <Button
+            className="custom-btn custom-btn-filled"
+            style={{ width: "120px" }}
+            variant="dark"
+            onClick={handleClick}
+            disabled={!text}
+          >
             Отправить
           </Button>
         </Form>

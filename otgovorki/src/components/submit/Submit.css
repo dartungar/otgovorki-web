@@ -28,6 +28,15 @@
   opacity: 0.5;
 }
 
+.submit-btn:focus {
+  background-color: #c1b656;
+  box-shadow: none;
+}
+
+.submit-btn:active {
+  background-color: red;
+}
+
 .submit-success-message {
   font-weight: 600;
   color: #c1b656;

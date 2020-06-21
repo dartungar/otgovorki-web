@@ -19,32 +19,45 @@ const SharePopup = (props) => {
   };
 
   return (
-    <div className="share-popup-container" onMouseDown={preventBlur}>
+    <div
+      className={
+        props.isSmall ? "share-popup-container-small" : "share-popup-container"
+      }
+      onMouseDown={preventBlur}
+    >
       <TwitterShareButton
         url={props.shareData.url}
         title={props.shareData.text}
-        className="share-popup-element"
+        className={
+          props.isSmall ? "share-popup-element-small" : "share-popup-element"
+        }
       >
         <FaTwitter title="Твитнуть" />
       </TwitterShareButton>
       <FacebookShareButton
         url={props.shareData.url}
         quote={props.shareData.text}
-        className="share-popup-element"
+        className={
+          props.isSmall ? "share-popup-element-small" : "share-popup-element"
+        }
       >
         <FaFacebookSquare title="Отправить в Facebook" />
       </FacebookShareButton>
       <VKShareButton
         url={props.shareData.url}
         title={props.shareData.text}
-        className="share-popup-element"
+        className={
+          props.isSmall ? "share-popup-element-small" : "share-popup-element"
+        }
       >
         <FaVk title="Отправить в VK" />
       </VKShareButton>
       <TelegramShareButton
         url={props.shareData.url}
         title={props.shareData.text}
-        className="share-popup-element"
+        className={
+          props.isSmall ? "share-popup-element-small" : "share-popup-element"
+        }
       >
         <FaTelegramPlane title="Отправить в Telegram" />
       </TelegramShareButton>

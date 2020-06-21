@@ -22,11 +22,10 @@ const RankingState = (props) => {
   const [state, dispatch] = useReducer(rankingReducer, initialState);
 
   // load a portion of items
-  function loadItems() {
-    const { sortType, rankingItems, itemsToLoad } = state;
-    dispatch({ type: SET_IS_RANKING_LOADING });
-    fetch(
-      `/api/otgovorki/get?sort=${sortType}&currentNum=${rankingItems.length}&numToLoad=${itemsToLoad}`,
+  const loadItems = async (sort, offset, toLoad) => {
+    console.log("trying to load items with sortType ", sort, offset, toLoad);
+    const response = await fetch(
+      `/api/otgovorki/get?sort=${sort}&currentNum=${offset}&numToLoad=${toLoad}`,
       {
         method: "GET",
         mode: "cors",
@@ -34,15 +33,48 @@ const RankingState = (props) => {
     )
       .then((res) => res.json())
       .then((data) => {
-        dispatch({
-          type: SET_RANKING_ITEMS,
-          payload: [...state.rankingItems, ...data],
-        });
+        return data;
       })
       .catch((error) => {
-        dispatch({ type: SET_IS_RANKING_LOADING_FAILED });
+        return false;
       });
-  }
+    console.log(response);
+    return response;
+  };
+
+  // load first batch of items
+  const loadFirstItems = async (sort) => {
+    const { sortType, itemsToLoad } = state;
+    dispatch({ type: SET_IS_RANKING_LOADING });
+    console.log("will try to load items with", sort, 0, itemsToLoad);
+    const items = await loadItems(sort, 0, itemsToLoad);
+    if (items) {
+      dispatch({ type: SET_RANKING_ITEMS, payload: items });
+    } else {
+      dispatch({ type: SET_IS_RANKING_LOADING_FAILED });
+    }
+  };
+
+  // load additional items
+  const loadMoreItems = async () => {
+    const { sortType, itemsToLoad, rankingItems } = state;
+    dispatch({ type: SET_IS_RANKING_LOADING });
+    console.log(
+      "will try to load items with",
+      sortType,
+      rankingItems.length,
+      itemsToLoad
+    );
+    const items = await loadItems(sortType, rankingItems.length, itemsToLoad);
+    if (items) {
+      dispatch({
+        type: SET_RANKING_ITEMS,
+        payload: [...rankingItems, ...items],
+      });
+    } else {
+      dispatch({ type: SET_IS_RANKING_LOADING_FAILED });
+    }
+  };
 
   // register upvote
   async function registerUpvote(id, content, type) {
@@ -85,9 +117,11 @@ const RankingState = (props) => {
 
   // change sort type
   const changeSortType = (newSortType) => {
+    dispatch({ type: SET_RANKING_ITEMS, payload: [] });
     dispatch({ type: SET_SORT_TYPE, payload: newSortType });
     // using arg because state updates unreliably
-    sortItems(newSortType);
+    loadFirstItems(newSortType);
+    //sortItems(newSortType);
   };
 
   const setItemsAreAnimated = (value) => {
@@ -123,7 +157,8 @@ const RankingState = (props) => {
         rankingItems: state.rankingItems,
         sortType: state.sortType,
         itemsAreAnimated: state.itemsAreAnimated,
-        loadItems,
+        loadFirstItems,
+        loadMoreItems,
         changeSortType,
         sortItems,
         setItemsAreAnimated,
