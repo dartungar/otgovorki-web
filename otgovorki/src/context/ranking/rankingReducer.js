@@ -1,6 +1,7 @@
 import {
   SET_IS_RANKING_LOADING,
   SET_IS_RANKING_LOADING_FAILED,
+  NO_ITEMS_TO_LOAD,
   SET_RANKING_ITEMS,
   SET_SORT_TYPE,
   SET_ITEMS_ARE_ANIMATED,
@@ -19,6 +20,11 @@ const rankingReducer = (state, action) => {
         isRankingLoading: false,
         isRankingLoadingFailed: true,
       };
+    case NO_ITEMS_TO_LOAD:
+      return {
+        ...state,
+        noItemsToLoad: action.payload,
+      };
     case SET_RANKING_ITEMS:
       console.log("setting ranking items with ", action.payload);
       return {
@@ -31,6 +37,7 @@ const rankingReducer = (state, action) => {
         ...state,
         sortType: action.payload,
         itemsAreAnimated: true,
+        noItemsToLoad: false,
       };
     case SET_ITEMS_ARE_ANIMATED:
       return {

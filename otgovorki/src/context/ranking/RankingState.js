@@ -4,6 +4,7 @@ import rankingReducer from "./rankingReducer";
 import {
   SET_IS_RANKING_LOADING,
   SET_IS_RANKING_LOADING_FAILED,
+  NO_ITEMS_TO_LOAD,
   SET_RANKING_ITEMS,
   SET_SORT_TYPE,
   SET_ITEMS_ARE_ANIMATED,
@@ -15,6 +16,7 @@ const RankingState = (props) => {
     isRankingLoadingFailed: false,
     rankingItems: [],
     itemsToLoad: 10,
+    noItemsToLoad: false,
     sortType: "likes",
     itemsAreAnimated: false,
   };
@@ -24,6 +26,7 @@ const RankingState = (props) => {
   // load a portion of items
   const loadItems = async (sort, offset, toLoad) => {
     console.log("trying to load items with sortType ", sort, offset, toLoad);
+
     const response = await fetch(
       `/api/otgovorki/get?sort=${sort}&currentNum=${offset}&numToLoad=${toLoad}`,
       {
@@ -39,12 +42,17 @@ const RankingState = (props) => {
         return false;
       });
     console.log(response);
+
+    if (response.length === 0) {
+      console.log("no more items to load!");
+      dispatch({ type: NO_ITEMS_TO_LOAD, payload: true });
+    }
     return response;
   };
 
   // load first batch of items
   const loadFirstItems = async (sort) => {
-    const { sortType, itemsToLoad } = state;
+    const { itemsToLoad } = state;
     dispatch({ type: SET_IS_RANKING_LOADING });
     console.log("will try to load items with", sort, 0, itemsToLoad);
     const items = await loadItems(sort, 0, itemsToLoad);
@@ -74,6 +82,11 @@ const RankingState = (props) => {
     } else {
       dispatch({ type: SET_IS_RANKING_LOADING_FAILED });
     }
+  };
+
+  const onRankingReload = () => {
+    loadFirstItems(state.sortType);
+    dispatch({ type: NO_ITEMS_TO_LOAD, payload: false });
   };
 
   // register upvote
@@ -157,7 +170,9 @@ const RankingState = (props) => {
         rankingItems: state.rankingItems,
         sortType: state.sortType,
         itemsAreAnimated: state.itemsAreAnimated,
+        noItemsToLoad: state.noItemsToLoad,
         loadFirstItems,
+        onRankingReload,
         loadMoreItems,
         changeSortType,
         sortItems,
