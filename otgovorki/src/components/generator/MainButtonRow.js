@@ -5,7 +5,7 @@ import InfoPopover from "./InfoPopover";
 import { FaCog, FaRedoAlt, FaQuestion } from "react-icons/fa";
 import GeneratorContext from "../../context/generator/generatorContext";
 
-function MainButtonRow(props) {
+const MainButtonRow = () => {
   const generatorContext = useContext(GeneratorContext);
   const {
     toggleSettingsVisibility,
@@ -52,6 +52,6 @@ function MainButtonRow(props) {
       />
     </div>
   );
-}
+};
 
 export default MainButtonRow;

@@ -1,25 +1,28 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import { FaRedoAlt } from "react-icons/fa";
 
-function SubmitMessage(props) {
+const SubmitMessage = ({ isSubmitSuccessful }) => {
   const [buttonTitle, setButtonTitle] = useState();
 
+  // change button's hover text according to submit's result
   useEffect(() => {
-    if (props.isSubmitSuccessful) {
+    if (isSubmitSuccessful) {
       setButtonTitle("Предложить ещё");
     } else {
       setButtonTitle("Попробовать ещё раз");
     }
-  }, [props.isSubmitSuccessful]);
+  }, [isSubmitSuccessful]);
 
+  // guess what this does
   function handleRefreshButtonClick() {
     window.location.reload();
   }
 
   return (
     <div>
-      {props.isSubmitSuccessful ? (
+      {isSubmitSuccessful ? (
         <p className="submit-success-message">
           Получили вашу отговорку. Спасибо!
         </p>
@@ -38,6 +41,10 @@ function SubmitMessage(props) {
       </Button>
     </div>
   );
-}
+};
+
+SubmitMessage.propTypes = {
+  isSubmitSuccessful: PropTypes.object.isRequired,
+};
 
 export default SubmitMessage;

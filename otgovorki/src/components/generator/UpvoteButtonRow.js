@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import GeneratorContext from "../../context/generator/generatorContext";
 import RankingContext from "../../context/ranking/rankingContext";
 
-function UpvoteButtonRow(props) {
+const UpvoteButtonRow = () => {
   const generatorContext = useContext(GeneratorContext);
   const { generatedOtgovorka, isLoading, isLoadingFailed } = generatorContext;
 
@@ -72,6 +72,6 @@ function UpvoteButtonRow(props) {
       </Button>
     </div>
   );
-}
+};
 
 export default UpvoteButtonRow;

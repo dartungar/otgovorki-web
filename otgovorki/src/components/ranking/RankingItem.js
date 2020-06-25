@@ -1,13 +1,14 @@
 import React, { useState, useContext } from "react";
+import PropTypes from "prop-types";
 import RankingContext from "../../context/ranking/rankingContext";
 import ShareButton from "../layout/ShareButton";
 
-function RankingItem(props) {
+const RankingItem = ({ otgovorka }) => {
   const defaultButtonsState = { like: false, laugh: false, doubt: false };
+  const [isButtonClicked, setButtonsState] = useState({ defaultButtonsState });
+
   const rankingContext = useContext(RankingContext);
   const { registerUpvote, updateOtgovorkaValue } = rankingContext;
-
-  const [isButtonClicked, setButtonsState] = useState({ defaultButtonsState });
 
   const upvoteTypes = { like: 1, laugh: 2, doubt: 3 };
 
@@ -19,8 +20,8 @@ function RankingItem(props) {
       };
     });
     const updatedOtgovorka = await registerUpvote(
-      props.otgovorka.id,
-      props.otgovorka.content,
+      otgovorka.id,
+      otgovorka.content,
       upvoteTypes[btnName]
     );
     console.log(
@@ -34,7 +35,7 @@ function RankingItem(props) {
 
   return (
     <div className={`ranking-item`}>
-      <p className="ranking-item-text">{props.otgovorka.content}</p>
+      <p className="ranking-item-text">{otgovorka.content}</p>
       <div className="ranking-item-button-row">
         <span className="ranking-upvote-span">
           <button
@@ -46,9 +47,7 @@ function RankingItem(props) {
           >
             👍
           </button>
-          <span className="ranking-upvote-number">
-            {props.otgovorka.likes_count}
-          </span>
+          <span className="ranking-upvote-number">{otgovorka.likes_count}</span>
         </span>
         <span className="ranking-upvote-span">
           <button
@@ -61,7 +60,7 @@ function RankingItem(props) {
             🤣
           </button>
           <span className="ranking-upvote-number">
-            {props.otgovorka.laughs_count}
+            {otgovorka.laughs_count}
           </span>
         </span>
         <span className="ranking-upvote-span">
@@ -75,17 +74,21 @@ function RankingItem(props) {
             🤔
           </button>
           <span className="ranking-upvote-number">
-            {props.otgovorka.doubts_count}
+            {otgovorka.doubts_count}
           </span>
         </span>
         <ShareButton
           url="https://otgovorki.dartungar.com"
-          text={props.otgovorka.content}
+          text={otgovorka.content}
           isSmall={true}
         />
       </div>
     </div>
   );
-}
+};
+
+RankingItem.propTypes = {
+  otgovorka: PropTypes.object.isRequired,
+};
 
 export default RankingItem;

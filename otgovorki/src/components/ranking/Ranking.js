@@ -1,10 +1,10 @@
 import React, { useEffect, useContext } from "react";
 import RankingItem from "./RankingItem";
 import ScrollToTopBtn from "./ScrollToTopBtn";
-import { SortingIconArrow } from "./SortingIcons";
+import SortingIconArrow from "./SortingIcons";
 import RankingContext from "../../context/ranking/rankingContext";
 
-function Ranking() {
+const Ranking = () => {
   const rankingContext = useContext(RankingContext);
   const {
     rankingItems,
@@ -112,6 +112,6 @@ function Ranking() {
       <ScrollToTopBtn />
     </div>
   );
-}
+};
 
 export default Ranking;

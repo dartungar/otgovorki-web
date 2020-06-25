@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import UpvoteButtonRow from "./UpvoteButtonRow";
 import GeneratorContext from "../../context/generator/generatorContext";
 
-function TextBox(props) {
+const TextBox = () => {
   const generatorContext = useContext(GeneratorContext);
   const {
     settings,
@@ -53,6 +53,6 @@ function TextBox(props) {
       <UpvoteButtonRow />
     </div>
   );
-}
+};
 
 export default TextBox;

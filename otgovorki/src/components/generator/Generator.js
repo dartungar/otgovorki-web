@@ -4,7 +4,7 @@ import MainButtonRow from "./MainButtonRow";
 import SettingsBox from "./SettingsBox";
 import GeneratorContext from "../../context/generator/generatorContext";
 
-function Generator() {
+const Generator = () => {
   const generatorContext = useContext(GeneratorContext);
   const { isSettingsBoxVisible } = generatorContext;
 
@@ -17,6 +17,6 @@ function Generator() {
       {isSettingsBoxVisible && <SettingsBox />}
     </Fragment>
   );
-}
+};
 
 export default Generator;

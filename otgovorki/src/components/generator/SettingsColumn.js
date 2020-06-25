@@ -1,8 +1,9 @@
 import React from "react";
+import PropTypes from "prop-types";
 import SettingsItem from "./SettingsItem";
 
-function SettingsColumn(props) {
-  const { settingType, title, options, activeOption } = props.setting;
+const SettingsColumn = ({ setting }) => {
+  const { settingType, title, options, activeOption } = setting;
   return (
     <div>
       <h5>{title}</h5>
@@ -20,6 +21,10 @@ function SettingsColumn(props) {
       </div>
     </div>
   );
-}
+};
+
+SettingsColumn.propTypes = {
+  setting: PropTypes.object.isRequired,
+};
 
 export default SettingsColumn;

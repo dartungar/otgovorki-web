@@ -1,6 +1,6 @@
 import React from "react";
 
-function Footer() {
+const Footer = () => {
   return (
     <div className="footer">
       <p className="text-center text-nowrap">
@@ -12,6 +12,6 @@ function Footer() {
       </p>
     </div>
   );
-}
+};
 
 export default Footer;

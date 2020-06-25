@@ -3,15 +3,17 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import SubmitMessage from "./SubmitMessage";
 
-function Submit() {
+const Submit = () => {
   const [text, setText] = useState("");
   const [isSubmitted, setIsSubmitted] = useState();
   const [isSubmitSuccessful, setIsSubmitSuccessful] = useState();
 
+  // handle change of controlled input
   function handleChange(event) {
     setText(event.target.value);
   }
 
+  // on click, send text to API
   function handleClick(event) {
     event.preventDefault();
     fetch("/api/submit/post", {
@@ -63,6 +65,6 @@ function Submit() {
       )}
     </div>
   );
-}
+};
 
 export default Submit;
