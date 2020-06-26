@@ -1,10 +1,9 @@
 from flask import Flask, session, request, url_for, send_from_directory, render_template
 from flask_cors import CORS
-from .api.dictionary import get_dictionary, morph, themes
-from .api import constructor
-from .api.constructor import basic_constructor
-from .api import db
-from .api.db import Otgovorka, session, desc
+from .dictionary import get_dictionary, morph, themes
+from api import constructor
+from .constructor import basic_constructor
+from .db import Otgovorka, session, desc
 import json
 import random
 import uuid
@@ -40,7 +39,6 @@ def create_app(test_config=None, *args, **kwargs):
     @app.route("/top")
     @app.route("/submit")
     def index():
-        print(app.static_folder)
         return app.send_static_file("index.html")
 
     # generate otgovorka based on url parameters
@@ -154,7 +152,7 @@ def create_app(test_config=None, *args, **kwargs):
 
     ### ERROR HANDLERS ###
 
-    app.route("/static/js/<filename>")
+    # app.route("/static/js/<filename>")
 
     def serve_js(filename):
         return send_from_directory("/static/js", filename)

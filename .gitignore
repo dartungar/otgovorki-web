@@ -26,13 +26,16 @@ yarn-error.log*
 /data
 data/
 public/data
+api/data
 /otgovorki/static/data/
 
 __pycache__/
 .vscode/
 
-/otgovorki/build/
-/otgovorki/build
+/client/build/
+/client/build
+/client/node_modules/
+/client/node_modules
 .env
 
 
