@@ -39,7 +39,7 @@ const Submit = () => {
   }
 
   return (
-    <div className="submit-container">
+    <div className="container-narrow">
       {isSubmitted ? (
         <SubmitMessage isSubmitSuccessful={isSubmitSuccessful} />
       ) : (

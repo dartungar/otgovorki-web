@@ -1,11 +1,13 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Logo from "./layout/Logo";
-import Header from "./layout/Header";
+import Navbar from "./layout/Navbar";
 import Footer from "./layout/Footer";
 import Generator from "./generator/Generator";
 import Ranking from "./ranking/Ranking";
 import Submit from "./submit/Submit";
+import About from "./about/About";
+import Feedback from "./about/Feedback";
 import NotFound from "./layout/NotFound";
 import GeneratorState from "../context/generator/GeneratorState";
 import RankingState from "../context/ranking/RankingState";
@@ -23,11 +25,13 @@ function App() {
         <Router>
           <div className="app-container d-flex flex-column">
             <Logo />
-            <Header />
+            <Navbar />
             <Switch>
               <Route exact path="/" component={Generator} />
               <Route exact path="/top" component={Ranking} />
               <Route exact path="/submit" component={Submit} />
+              <Route exact path="/about" component={About} />
+              <Route exact path="/feedback" component={Feedback} />
               <Route component={NotFound} />
             </Switch>
             <Footer />

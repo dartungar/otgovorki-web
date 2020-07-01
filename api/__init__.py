@@ -38,6 +38,8 @@ def create_app(test_config=None, *args, **kwargs):
     @app.route("/")
     @app.route("/top")
     @app.route("/submit")
+    @app.route("/about")
+    @app.route("/feedback")
     def index():
         return app.send_static_file("index.html")
 
@@ -81,7 +83,6 @@ def create_app(test_config=None, *args, **kwargs):
         if not otgovorka:
             # if not, create one
             otgovorka = Otgovorka(id=id, content=data['content'])
-            print(f'creating otgovorka: {otgovorka}')
             session.add(otgovorka)
         # also increment likes count of said type
         upvote_type = data['type']
@@ -111,21 +112,17 @@ def create_app(test_config=None, *args, **kwargs):
 
     @app.route('/api/otgovorki/get')
     def get_all_otgovorki():
-        print(request.args['sort'])
         sort_type_dict = {'likes': 'likes_count', 'laughs': 'laughs_count',
                           'doubts': 'doubts_count', 'undefined': 'likes_count'}
         sort_type = sort_type_dict[request.args['sort']
                                    ] if request.args['sort'] else 'likes_count'
-        print(sort_type)
         offset = int(request.args['currentNum']
                      ) if request.args['currentNum'] else 0
         limit = int(request.args['numToLoad']
                     ) if request.args['numToLoad'] else 10
-        print(f"offset: {offset}, limit: {limit}")
         # get list of all otgovorki
         otgovorki = session.query(Otgovorka).order_by(
             desc(sort_type))[offset:offset+limit]
-        print(otgovorki)
         # make it a JSON object with JSONified otgovorki
         otgovorki_json = json.dumps([o.to_json() for o in otgovorki])
         return otgovorki_json, 200, {'ContentType': 'application/json'}
@@ -145,7 +142,6 @@ def create_app(test_config=None, *args, **kwargs):
         data = request.get_json()
         otgovorka = Otgovorka(id=str(uuid.uuid4()),
                               type=1, content=data['content'])
-        print(f'creating submitted otgovorka: {otgovorka}')
         session.add(otgovorka)
         session.commit()
         return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}

@@ -1,16 +1,32 @@
 @import url("https://fonts.googleapis.com/css2?family=Lora&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap");
 
+/* containers */
+
 .app-container {
   height: 100%;
   color: #515156;
 }
 
-/* links  */
+.container-narrow {
+  width: 30%;
+  min-width: 300px;
+  margin: 10% auto auto auto;
+}
+
+/* global text styles  */
+
+.justified {
+  text-align: justify;
+}
+
+/* global link styles  */
+
 .custom-link {
   color: #515156;
   font-family: "Montserrat", sans-serif;
   text-decoration: none;
+  font-size: 0.9rem;
 }
 
 .custom-navbar-link {

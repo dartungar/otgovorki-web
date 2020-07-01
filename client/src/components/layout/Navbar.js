@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 
-const Header = () => {
+const Navbar = () => {
   return (
     <Nav className="justify-content-center">
       <NavLink
@@ -31,4 +31,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Navbar;

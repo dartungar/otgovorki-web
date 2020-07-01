@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "client": "npm start --prefix client"
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm start --prefix client\" \"pipenv run flask run\""
   },
   "repository": {
     "type": "git",
@@ -17,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/dartungar/otgovorki-web/issues"
   },
-  "homepage": "https://github.com/dartungar/otgovorki-web#readme"
+  "homepage": "https://github.com/dartungar/otgovorki-web#readme",
+  "dependencies": {
+    "concurrently": "^5.2.0"
+  }
 }
